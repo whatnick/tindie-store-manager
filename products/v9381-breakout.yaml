@@ -1,0 +1,56 @@
+sku: "V9381-BREAKOUT"
+name: "V9381 Breakout"
+description: |
+  Breadboard-compatible breakout for the Vangotech V9381 single-phase energy
+  monitoring ASIC — the upgraded sibling of the V9360, adding SPI alongside
+  UART for ~10x faster data acquisition. The SPI interface supports clock
+  speeds up to 10 MHz in FourWire and ThreeWire modes, enabling rapid waveform
+  capture (~200 ms) and on-board FFT with ESP-DSP.
+
+  UART multi-drop addressing (A0/A1 pins) allows up to 4 V9381 devices on a
+  shared half-duplex bus. Onboard 3.3 V LDO for 5 V USB compatibility.
+
+  Open-hardware KiCad design files and an Arduino library with SPI/UART
+  waveform capture, FFT, and dirty-mode examples (ESP32-S3) are available
+  on GitHub.
+
+  ## What's in the box
+  - 1x V9381 Breakout PCB (assembled)
+  - 2x 1x10 pin headers (unsoldered)
+
+  ## Resources
+  - Schematic & PCB: https://github.com/whatnick/V93XX_Breakout
+  - Arduino library: https://github.com/whatnick/V93XX_Arduino
+price_usd: 30.00
+stock: 0
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - breakout
+  - uart
+  - spi
+  - open-source
+  - open-hardware
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: "3.3–5 V (onboard LDO)"
+  current_range: null
+  accuracy: null
+  interfaces:
+    - "UART (half-duplex, 8O1)"
+    - "SPI (FourWire / ThreeWire)"
+  connectivity: []
+  dimensions_mm: "38.1 × 27.9"
+  weight_g: null
+  extra:
+    baud_rates: "1200–19200 bps (auto-baud)"
+    spi_clock: "400 kHz–10 MHz"
+    supply_voltage: "3.3 V (IC core)"
+    chip: "Vangotech V9381"
+    multi_drop: "Up to 4 devices (A0/A1 address pins)"
+    form_factor: "Breadboard compatible"
+
+images: []

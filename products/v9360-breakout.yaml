@@ -1,7 +1,22 @@
 sku: "V9360-BREAKOUT"
 name: "V9360 Breakout"
 description: |
-  Low voltage breadboard compatible V9360 breakout
+  Breadboard-compatible breakout for the Vangotech V9360 single-phase energy
+  monitoring ASIC. The V9360 communicates over UART (half-duplex, 8O1) and
+  supports auto-bauding from 1200 to 19200 bps, making it easy to interface
+  with any microcontroller. Onboard 3.3 V LDO so the board can be powered
+  from 5 V USB or a regulated 3.3 V supply.
+
+  Open-hardware KiCad design files and an Arduino library with waveform
+  capture and on-board FFT examples (ESP32-S3) are available on GitHub.
+
+  ## What's in the box
+  - 1x V9360 Breakout PCB (assembled)
+  - 2x 1x10 pin headers (unsoldered)
+
+  ## Resources
+  - Schematic & PCB: https://github.com/whatnick/V93XX_Breakout
+  - Arduino library: https://github.com/whatnick/V93XX_Arduino
 price_usd: 25.00
 stock: 10
 category: "Energy Monitor"
@@ -9,18 +24,26 @@ tags:
   - energy-monitor
   - energy-ic
   - breakout
+  - uart
   - open-source
+  - open-hardware
 tindie_product_id: null
 active: true
 
 specs:
-  voltage_range: null
+  voltage_range: "3.3–5 V (onboard LDO)"
   current_range: null
   accuracy: null
-  interfaces: []
+  interfaces:
+    - "UART (half-duplex, 8O1)"
   connectivity: []
-  dimensions_mm: null
+  dimensions_mm: "38.1 × 27.9"
   weight_g: null
-  extra: {}
+  extra:
+    baud_rates: "1200–19200 bps (auto-baud)"
+    supply_voltage: "3.3 V (IC core)"
+    chip: "Vangotech V9360"
+    form_factor: "Breadboard compatible"
 
-images: []
+images:
+  - "https://raw.githubusercontent.com/whatnick/V93XX_Breakout/main/docs/V9360_PCB.jpg"

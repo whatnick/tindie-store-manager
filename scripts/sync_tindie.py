@@ -25,7 +25,8 @@ def main(dry_run: bool) -> None:
         api = TindieAPI()
         live_items = api.get_inventory()
     except TindieAPIError as exc:
-        console.print(f"[red]API error:[/] {exc}")
+        from rich.markup import escape
+        console.print(f"[red]API error:[/] {escape(str(exc))}")
         sys.exit(1)
 
     # Build a map from tindie_product_id → quantity
