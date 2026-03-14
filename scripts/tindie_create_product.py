@@ -19,7 +19,9 @@ from __future__ import annotations
 
 import re
 import sys
+import tempfile
 import time
+import urllib.request
 from pathlib import Path
 
 import click
@@ -214,6 +216,38 @@ def select_category(page: Page, value: str) -> None:
         click.echo("  ⚠  Category dropdown not found — select manually")
 
 
+def download_image(url: str) -> Path:
+    """Download an image URL to a temp file and return its path."""
+    suffix = Path(url.split("?")[0]).suffix or ".jpg"
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
+    click.echo(f"  Downloading image from {url} …")
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req) as resp:
+        tmp.write(resp.read())
+    tmp.close()
+    click.echo(f"  Image saved to {tmp.name}")
+    return Path(tmp.name)
+
+
+def upload_image(page: Page, image_path: Path) -> bool:
+    """Upload an image via a file <input type=file> on the page."""
+    selectors = [
+        "input[type='file'][name*='image']",
+        "input[type='file'][id*='image']",
+        "input[type='file'][accept*='image']",
+        "input[type='file']",
+    ]
+    for sel in selectors:
+        loc = page.locator(sel)
+        if loc.count() > 0:
+            loc.first.set_input_files(str(image_path))
+            page.wait_for_timeout(1500)
+            click.echo(f"  Image uploaded ({image_path.name}) ✓")
+            return True
+    click.echo("  ⚠  Image file input not found — upload manually in the browser")
+    return False
+
+
 def fill_form(page: Page, product: dict) -> None:
     page.wait_for_load_state("networkidle")
 
@@ -272,7 +306,12 @@ def fill_form(page: Page, product: dict) -> None:
 @click.argument("sku")
 @click.option("--headless", is_flag=True, default=False, help="Run browser in headless mode.")
 @click.option("--dry-run", is_flag=True, default=False, help="Fill form but do not submit.")
-def main(sku: str, headless: bool, dry_run: bool) -> None:
+@click.option(
+    "--image",
+    default=None,
+    help="URL or local path to a product image to upload automatically.",
+)
+def main(sku: str, headless: bool, dry_run: bool, image: str | None) -> None:
     """List a product on Tindie by SKU.
 
     Reads credentials from .env (TINDIE_USERNAME, TINDIE_PASSWORD).
@@ -287,6 +326,18 @@ def main(sku: str, headless: bool, dry_run: bool) -> None:
             "Set TINDIE_USERNAME and TINDIE_PASSWORD in your .env file."
         )
 
+    # Resolve image to a local path (download if URL)
+    image_path: Path | None = None
+    _tmp_image: Path | None = None
+    if image:
+        if image.startswith("http://") or image.startswith("https://"):
+            image_path = download_image(image)
+            _tmp_image = image_path
+        else:
+            image_path = Path(image)
+            if not image_path.exists():
+                raise click.ClickException(f"Image file not found: {image}")
+
     # Load product
     try:
         yaml_path = find_yaml(sku)
@@ -298,6 +349,8 @@ def main(sku: str, headless: bool, dry_run: bool) -> None:
     click.echo(f"Price   : ${product['price_usd']:.2f}")
     click.echo(f"Stock   : {product.get('stock', 0)}")
     click.echo(f"YAML    : {yaml_path.name}")
+    if image_path:
+        click.echo(f"Image   : {image_path}")
 
     if product.get("tindie_product_id"):
         click.echo(
@@ -309,65 +362,78 @@ def main(sku: str, headless: bool, dry_run: bool) -> None:
 
     click.echo()
 
-    with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=headless, slow_mo=60)
-        context = browser.new_context(viewport={"width": 1280, "height": 900})
-        page = context.new_page()
+    try:
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(headless=headless, slow_mo=60)
+            context = browser.new_context(viewport={"width": 1280, "height": 900})
+            page = context.new_page()
 
-        try:
-            # Login
-            login(page, username, password)
+            try:
+                # Login
+                login(page, username, password)
 
-            # Navigate to create form
-            click.echo("  Navigating to /products/create/ …")
-            page.goto("https://www.tindie.com/products/create/")
+                # Navigate to create form
+                click.echo("  Navigating to /products/create/ …")
+                page.goto("https://www.tindie.com/products/create/")
 
-            # Fill all fields
-            click.echo("  Filling form fields…")
-            fill_form(page, product)
+                # Fill all fields
+                click.echo("  Filling form fields…")
+                fill_form(page, product)
 
-            if dry_run:
-                click.echo("\n[dry-run] Form filled — NOT submitting. Review the browser.")
-                click.pause("  Press any key to close the browser…")
-                browser.close()
-                return
+                # Upload image if provided
+                if image_path:
+                    upload_image(page, image_path)
 
-            # Pause for user to add images / review
-            click.echo(
-                "\n✅ Form filled. Add product images in the browser, then press ENTER to submit."
-            )
-            click.pause("  Press any key to submit…")
+                if dry_run:
+                    click.echo("\n[dry-run] Form filled — NOT submitting. Review the browser.")
+                    click.pause("  Press any key to close the browser…")
+                    browser.close()
+                    return
 
-            # Submit
-            submit = page.locator(
-                "button[type='submit']:not([name='save_draft']), "
-                "input[type='submit']"
-            ).last
-            submit.click()
-            click.echo("  Submitting…")
+                # Pause for user to add images / review (only if no image supplied)
+                if not image_path:
+                    click.echo(
+                        "\n✅ Form filled. Add product images in the browser, then press ENTER to submit."
+                    )
+                    click.pause("  Press any key to submit…")
+                else:
+                    click.echo("\n✅ Form filled with image. Press ENTER to submit.")
+                    click.pause("  Press any key to submit…")
 
-            # Wait for redirect to the new product page
-            page.wait_for_url(
-                re.compile(r"/products/whatnick/[^/]+/"), timeout=30_000
-            )
-            new_url = page.url
-            click.echo(f"\n🎉 Listed successfully!\n   {new_url}")
+                # Submit
+                submit = page.locator(
+                    "button[type='submit']:not([name='save_draft']), "
+                    "input[type='submit']"
+                ).last
+                submit.click()
+                click.echo("  Submitting…")
 
-            # Extract product ID and update YAML
-            id_match = re.search(r"/products/whatnick/[^/]+/(\d+)", new_url)
-            if id_match:
-                write_tindie_id(yaml_path, id_match.group(1))
-            else:
-                click.echo(
-                    "  ⚠  Could not parse product ID from URL — update YAML manually."
+                # Wait for redirect to the new product page
+                page.wait_for_url(
+                    re.compile(r"/products/whatnick/[^/]+/"), timeout=30_000
                 )
+                new_url = page.url
+                click.echo(f"\n🎉 Listed successfully!\n   {new_url}")
 
-        except Exception as exc:
-            click.echo(f"\n[error] {exc}", err=True)
-            click.pause("  Press any key to close (browser stays open for inspection)…")
-            raise SystemExit(1)
-        finally:
-            browser.close()
+                # Extract product ID and update YAML
+                id_match = re.search(r"/products/whatnick/[^/]+/(\d+)", new_url)
+                if id_match:
+                    write_tindie_id(yaml_path, id_match.group(1))
+                else:
+                    click.echo(
+                        "  ⚠  Could not parse product ID from URL — update YAML manually."
+                    )
+
+            except Exception as exc:
+                click.echo(f"\n[error] {exc}", err=True)
+                click.pause("  Press any key to close (browser stays open for inspection)…")
+                raise SystemExit(1)
+            finally:
+                browser.close()
+    finally:
+        # Clean up downloaded temp image
+        if _tmp_image and _tmp_image.exists():
+            _tmp_image.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":
