@@ -1,0 +1,39 @@
+# Example product file — copy and rename to <sku>.yaml
+# All fields under 'specs' are optional; add/remove as needed.
+
+sku: "EM-XXXX"
+name: "My Energy Monitor v1"
+description: |
+  A brief one-paragraph description shown on Tindie.
+
+  ## Features
+  - Feature one
+  - Feature two
+
+  ## What's in the box
+  - 1× PCB
+  - 2× CT clamps
+price_usd: 29.95
+stock: 0
+category: "Energy Monitor"
+tags:
+  - energy
+  - iot
+  - open-source
+tindie_product_id: null   # fill in after first listing on Tindie
+active: false
+
+specs:
+  voltage_range: "90–260 VAC"
+  current_range: "0–100 A"
+  accuracy: "±1%"
+  interfaces:
+    - "UART"
+    - "I2C"
+  connectivity:
+    - "WiFi 802.11 b/g/n"
+  dimensions_mm: "60 × 40 × 15"
+  weight_g: 35
+  extra: {}
+
+images: []

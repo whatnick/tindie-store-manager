@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtualenv
+.venv/
+venv/
+env/
+
+# Secrets
+.env
+*.env
+secrets.yaml
+secrets.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data exports (keep schema, not dumps)
+data/*.csv
+data/*.xlsx
