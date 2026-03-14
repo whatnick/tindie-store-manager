@@ -23,9 +23,9 @@ tindie_products/
 ## Setup
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+# Install uv if you don't have it: https://docs.astral.sh/uv/getting-started/installation/
+
+uv sync                    # creates .venv and installs all dependencies
 
 cp .env.example .env
 # Edit .env and add your Tindie credentials
@@ -42,28 +42,37 @@ cp .env.example .env
 
 ```bash
 # Show inventory summary
-python scripts/check_stock.py
+uv run scripts/check_stock.py
 
 # Show only low / out-of-stock items (threshold = 3)
-python scripts/check_stock.py --low-only --threshold 3
+uv run scripts/check_stock.py --low-only --threshold 3
 
 # List all active products
-python scripts/list_products.py
+uv run scripts/list_products.py
 
 # List with live stock from Tindie API
-python scripts/list_products.py --live
+uv run scripts/list_products.py --live
 
 # Set local stock for EM-1001 to 10 units
-python scripts/update_stock.py EM-1001 10
+uv run scripts/update_stock.py EM-1001 10
 
 # Set local stock AND push to Tindie API
-python scripts/update_stock.py EM-1001 10 --push
+uv run scripts/update_stock.py EM-1001 10 --push
 
 # Pull stock from Tindie and update all local YAML files
-python scripts/sync_tindie.py
+uv run scripts/sync_tindie.py
 
 # Dry-run sync (see what would change)
-python scripts/sync_tindie.py --dry-run
+uv run scripts/sync_tindie.py --dry-run
+```
+
+## Adding / Updating Dependencies
+
+```bash
+uv add <package>           # add a runtime dependency
+uv add --dev <package>     # add a dev dependency
+uv remove <package>        # remove a dependency
+uv sync                    # re-sync .venv after manual pyproject.toml edits
 ```
 
 ## Tindie API Reference
