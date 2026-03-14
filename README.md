@@ -59,6 +59,15 @@ uv run scripts/update_stock.py EM-1001 10
 # Set local stock AND push to Tindie API
 uv run scripts/update_stock.py EM-1001 10 --push
 
+# List a new product on Tindie via browser automation (opens Chromium)
+uv run scripts/tindie_create_product.py V9381-BREAKOUT
+
+# Dry-run: fill the form without submitting (useful for inspecting selectors)
+uv run scripts/tindie_create_product.py V9381-BREAKOUT --dry-run
+
+# Headless mode (no visible browser window)
+uv run scripts/tindie_create_product.py V9381-BREAKOUT --headless
+
 # Pull stock from Tindie and update all local YAML files
 uv run scripts/sync_tindie.py
 

@@ -9,6 +9,7 @@ dependencies = [
     "rich>=13.7.0",
     "click>=8.1.7",
     "python-dotenv>=1.0.0",
+    "playwright>=1.58.0",
 ]
 
 [dependency-groups]
