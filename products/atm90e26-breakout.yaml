@@ -1,0 +1,26 @@
+sku: "ATM90E26-BREAKOUT"
+name: "ATM90E26 Breakout"
+description: |
+  Breakout board for the ATMEL E9026 Energy monitor.
+price_usd: 25.00
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - breakout
+  - open-source
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces: []
+  connectivity: []
+  dimensions_mm: null
+  weight_g: null
+  extra: {}
+
+images: []

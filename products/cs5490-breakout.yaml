@@ -1,0 +1,26 @@
+sku: "CS5490-BREAKOUT"
+name: "CS5490 Breakout"
+description: |
+  Breakout board for evaluating and developing micro-controller integrations for CS5490 Energy Monitor ASIC
+price_usd: 20.00
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - breakout
+  - open-source
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces: []
+  connectivity: []
+  dimensions_mm: null
+  weight_g: null
+  extra: {}
+
+images: []

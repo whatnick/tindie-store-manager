@@ -1,0 +1,26 @@
+sku: "ADE7816-BREAKOUT"
+name: "ADE7816 Breakout"
+description: |
+  ADE7816 6-Channel Single Phase Energy Monitor ASIC Breakout
+price_usd: 65.00
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - breakout
+  - open-source
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces: []
+  connectivity: []
+  dimensions_mm: null
+  weight_g: null
+  extra: {}
+
+images: []

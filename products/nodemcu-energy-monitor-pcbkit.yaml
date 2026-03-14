@@ -1,0 +1,26 @@
+sku: "NODEMCU-ENERGY-MONITOR-PCBKIT"
+name: "NodeMCU Energy Monitor (PCB/Kit)"
+description: |
+  NodeMCU Energy Monitor shield
+price_usd: 8.00
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - iot
+  - open-source
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces: []
+  connectivity: []
+  dimensions_mm: null
+  weight_g: null
+  extra: {}
+
+images: []

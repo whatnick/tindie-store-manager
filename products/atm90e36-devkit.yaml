@@ -1,0 +1,25 @@
+sku: "ATM90E36-DEVKIT"
+name: "ATM90E36 devkit"
+description: |
+  ATM90E32/36 Development Kit
+price_usd: 50.00
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - open-source
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces: []
+  connectivity: []
+  dimensions_mm: null
+  weight_g: null
+  extra: {}
+
+images: []

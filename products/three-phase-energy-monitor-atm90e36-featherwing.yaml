@@ -1,0 +1,27 @@
+sku: "THREE-PHASE-ENERGY-MONITOR-ATM90E36-FEATHERWING"
+name: "Three-phase Energy Monitor - ATM90E36 Featherwing"
+description: |
+  3-phase Energy Monitoring platform compatible with Adafruit feather series or any controller with a SPI-bus
+price_usd: 60.00
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - featherwing
+  - three-phase
+  - open-source
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces: []
+  connectivity: []
+  dimensions_mm: null
+  weight_g: null
+  extra: {}
+
+images: []

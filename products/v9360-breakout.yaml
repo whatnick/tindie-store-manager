@@ -1,0 +1,26 @@
+sku: "V9360-BREAKOUT"
+name: "V9360 Breakout"
+description: |
+  Low voltage breadboard compatible V9360 breakout
+price_usd: 25.00
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - breakout
+  - open-source
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces: []
+  connectivity: []
+  dimensions_mm: null
+  weight_g: null
+  extra: {}
+
+images: []

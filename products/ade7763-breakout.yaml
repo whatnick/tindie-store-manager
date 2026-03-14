@@ -1,0 +1,26 @@
+sku: "ADE7763-BREAKOUT"
+name: "ADE7763 Breakout"
+description: |
+  Breakout Board for the ADE7763 Energy Monitoring ASIC, calculated true power and RMS voltage and current
+price_usd: 25.00
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - breakout
+  - open-source
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces: []
+  connectivity: []
+  dimensions_mm: null
+  weight_g: null
+  extra: {}
+
+images: []

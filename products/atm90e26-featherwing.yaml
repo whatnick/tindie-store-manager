@@ -1,0 +1,26 @@
+sku: "ATM90E26-FEATHERWING"
+name: "ATM90E26 FeatherWing"
+description: |
+  ATM90E26 Utility Grade Energy Monitor in a Featherwing
+price_usd: 35.00
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - energy-ic
+  - featherwing
+  - open-source
+tindie_product_id: null
+active: true
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces: []
+  connectivity: []
+  dimensions_mm: null
+  weight_g: null
+  extra: {}
+
+images: []
