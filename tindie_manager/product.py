@@ -37,6 +37,9 @@ class Product:
     images: list[str] = field(default_factory=list)
     tindie_product_id: Optional[str] = None
     active: bool = True
+    design_url: Optional[str] = None
+    code_url: Optional[str] = None
+    youtube_url: Optional[str] = None
 
     @classmethod
     def from_yaml(cls, path: Path) -> "Product":

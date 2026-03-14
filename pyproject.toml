@@ -1,7 +1,7 @@
 [project]
 name = "tindie-products"
 version = "0.1.0"
-description = "Product and inventory manager for the whatnick Tindie energy monitor store"
+description = "Product and inventory manager for a Tindie store"
 requires-python = ">=3.11"
 dependencies = [
     "requests>=2.31.0",

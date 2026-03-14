@@ -35,6 +35,10 @@ tags:
 tindie_product_id: null
 active: true
 
+design_url: "https://github.com/whatnick/V93XX_Breakout"
+code_url: "https://github.com/whatnick/V93XX_Arduino"
+youtube_url: "https://www.youtube.com/watch?v=7EaPbl-LAnU"
+
 specs:
   voltage_range: "3.3–5 V (onboard LDO)"
   current_range: null

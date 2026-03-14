@@ -1,4 +1,4 @@
-"""Tindie store manager for whatnick energy monitor products."""
+"""Tindie store manager for energy monitor products."""
 
 from .product import Product, Inventory
 from .tindie_api import TindieAPI

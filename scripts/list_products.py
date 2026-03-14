@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """List all local products and (optionally) sync with live Tindie API data."""
 
+import os
 import sys
 from pathlib import Path
 
 import click
+from dotenv import load_dotenv
 from rich.console import Console
 from rich.table import Table
 from rich import box
@@ -13,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from tindie_manager.product import Inventory
 from tindie_manager.tindie_api import TindieAPI, TindieAPIError
 
+load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
 console = Console()
 PRODUCTS_DIR = Path(__file__).resolve().parents[1] / "products"
 
@@ -35,7 +38,8 @@ def main(live: bool, show_all: bool) -> None:
         except TindieAPIError as exc:
             console.print(f"[red]API error:[/] {exc} — showing local data\n")
 
-    table = Table(title="whatnick Tindie Products", box=box.ROUNDED, highlight=True)
+    store = os.environ.get("TINDIE_USERNAME", "Tindie")
+    table = Table(title=f"{store} Tindie Products", box=box.ROUNDED, highlight=True)
     table.add_column("SKU", style="cyan", no_wrap=True)
     table.add_column("Name")
     table.add_column("Price", justify="right")

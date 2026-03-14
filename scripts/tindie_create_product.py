@@ -288,21 +288,20 @@ def fill_form(page: Page, product: dict) -> None:
     # Full description  (name="description", markdown textarea)
     fill_description(page, build_description(product))
 
-    # Open-source / open-hardware URLs from product tags
+    # Open-source / open-hardware URLs — read from YAML fields if present
     tags = product.get("tags", [])
     if "open-hardware" in tags or "open-source" in tags:
-        design_url = "https://github.com/whatnick/V93XX_Breakout"
-        code_url   = "https://github.com/whatnick/V93XX_Arduino"
-        fill_field(page, ['input[name="design_url"]'], design_url, "Design URL")
-        fill_field(page, ['input[name="code_url"]'],   code_url,   "Code URL")
+        design_url = product.get("design_url", "")
+        code_url   = product.get("code_url", "")
+        if design_url:
+            fill_field(page, ['input[name="design_url"]'], design_url, "Design URL")
+        if code_url:
+            fill_field(page, ['input[name="code_url"]'],   code_url,   "Code URL")
 
-    # YouTube URL (from blog post)
-    fill_field(
-        page,
-        ['input[name="youtube_url"]'],
-        "https://www.youtube.com/watch?v=7EaPbl-LAnU",
-        "YouTube URL",
-    )
+    # YouTube URL — read from YAML if present
+    youtube_url = product.get("youtube_url", "")
+    if youtube_url:
+        fill_field(page, ['input[name="youtube_url"]'], youtube_url, "YouTube URL")
 
 
 # ---------------------------------------------------------------------------
@@ -407,23 +406,36 @@ def main(sku: str, headless: bool, dry_run: bool, image: str | None) -> None:
                     click.echo("\n✅ Form filled with image. Press ENTER to submit.")
                     click.pause("  Press any key to submit…")
 
-                # Submit
-                submit = page.locator(
-                    "button[type='submit']:not([name='save_draft']), "
-                    "input[type='submit']"
-                ).last
+                # Submit — use the exact Save button from the Tindie form
+                submit = page.locator('input[name="submit"]#id_submit')
                 submit.click()
                 click.echo("  Submitting…")
 
-                # Wait for redirect to the new product page
-                page.wait_for_url(
-                    re.compile(r"/products/whatnick/[^/]+/"), timeout=30_000
-                )
+                # Wait for navigation away from the create page (any redirect)
+                try:
+                    page.wait_for_url(
+                        re.compile(r"/products/(?!create)"),
+                        timeout=30_000,
+                    )
+                except Exception:
+                    pass  # fall through — inspect whatever URL we landed on
+
                 new_url = page.url
+                click.echo(f"\n  Landed on: {new_url}")
+
+                # Check for validation errors still on the create page
+                if "/create/" in new_url or "/products/create" in new_url:
+                    errors = page.locator(".errorlist, .alert-danger, .has-error").all_text_contents()
+                    if errors:
+                        click.echo(f"\n⚠  Form errors:\n" + "\n".join(errors))
+                    raise RuntimeError(
+                        "Still on create page after submit — check the browser for validation errors."
+                    )
+
                 click.echo(f"\n🎉 Listed successfully!\n   {new_url}")
 
-                # Extract product ID and update YAML
-                id_match = re.search(r"/products/whatnick/[^/]+/(\d+)", new_url)
+                # Extract product ID from URL — works for any store slug
+                id_match = re.search(r"/products/[^/]+/[^/]+/(\d+)", new_url)
                 if id_match:
                     write_tindie_id(yaml_path, id_match.group(1))
                 else:

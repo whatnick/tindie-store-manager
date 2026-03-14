@@ -1,6 +1,6 @@
-# whatnick Tindie Store — Energy Monitor Products
+# Tindie Store Manager — Energy Monitor Products
 
-Manage product descriptions, stock levels, and Tindie store operations for the **whatnick** store.
+Manage product descriptions, stock levels, and Tindie store operations. Configure your store by setting `TINDIE_USERNAME` in `.env`.
 
 ## Structure
 

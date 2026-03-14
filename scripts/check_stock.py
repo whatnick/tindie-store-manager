@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Print an inventory summary and highlight low/out-of-stock products."""
 
+import os
 import sys
 from pathlib import Path
 
 import click
+from dotenv import load_dotenv
 from rich.console import Console
 from rich.table import Table
 from rich import box
@@ -12,6 +14,7 @@ from rich import box
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from tindie_manager.product import Inventory
 
+load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
 console = Console()
 PRODUCTS_DIR = Path(__file__).resolve().parents[1] / "products"
 
@@ -24,7 +27,8 @@ def main(threshold: int, low_only: bool) -> None:
     inventory = Inventory.load(PRODUCTS_DIR)
 
     summary = inventory.summary()
-    console.rule("[bold blue]whatnick Tindie Inventory")
+    store = os.environ.get("TINDIE_USERNAME", "Tindie")
+    console.rule(f"[bold blue]{store} Tindie Inventory")
     console.print(f"  Total products : [cyan]{summary['total_products']}[/]")
     console.print(f"  Active         : [cyan]{summary['active']}[/]")
     console.print(f"  Out of stock   : [red]{summary['out_of_stock']}[/]")
