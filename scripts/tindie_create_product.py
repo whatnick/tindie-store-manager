@@ -35,15 +35,13 @@ ROOT = Path(__file__).resolve().parents[1]
 PRODUCTS_DIR = ROOT / "products"
 
 # ---------------------------------------------------------------------------
-# Tindie category slug → Tindie form <option> value mapping
-# (visible at /products/create/ category <select>; "iot-home" is the closest
-#  match for energy monitors; update if Tindie changes their taxonomy)
+# Tindie category name → <option value> mapping (from /products/create/ form)
 # ---------------------------------------------------------------------------
 CATEGORY_MAP: dict[str, str] = {
-    "Energy Monitor": "iot-home",
-    "IoT": "iot-home",
-    "Breakout": "breakout-boards",
-    "Other": "other",
+    "Energy Monitor": "77",    # IoT & Smart Home
+    "IoT": "77",               # IoT & Smart Home
+    "Breakout": "65",          # DIY Electronics > Prototyping & Fabrication
+    "Other": "69",             # DIY Electronics
 }
 
 
@@ -119,15 +117,19 @@ def login(page: Page, username: str, password: str) -> None:
     click.echo("  Navigating to login page…")
     page.goto("https://www.tindie.com/accounts/login/")
     page.wait_for_load_state("networkidle")
-    page.fill('input[name="login"]', username)
-    page.fill('input[name="password"]', password)
-    page.click('button[type="submit"]')
+    # Tindie allauth fields: name="auth-username" / name="auth-password"
+    page.fill('input[name="auth-username"]', username)
+    page.fill('input[name="auth-password"]', password)
+    # Submit by pressing Enter on the password field
+    page.press('input[name="auth-password"]', "Enter")
     try:
-        page.wait_for_url(re.compile(r"/dashboard/|/stores/"), timeout=20_000)
+        page.wait_for_load_state("networkidle", timeout=20_000)
         click.echo("  Logged in ✓")
     except Exception:
+        pass
+    if "login" in page.url:
         raise RuntimeError(
-            "Login failed or unexpected redirect. Check TINDIE_USERNAME / TINDIE_PASSWORD."
+            "Login failed — still on login page. Check TINDIE_USERNAME / TINDIE_PASSWORD."
         )
 
 
@@ -157,8 +159,8 @@ def check_box(page: Page, selectors: list[str], label: str) -> bool:
 
 def fill_description(page: Page, text: str) -> None:
     """Handle plain textarea, contenteditable div, or iframe-based rich text editors."""
-    # 1. Plain textarea
-    ta = page.locator("textarea[name='description'], textarea[id*='description']")
+    # 1. Plain textarea (Tindie uses name="description")
+    ta = page.locator('textarea[name="description"], textarea[id="id_description"]')
     if ta.count():
         ta.first.fill(text)
         click.echo("  Description (textarea) ✓")
@@ -205,13 +207,13 @@ def enter_tags(page: Page, tags: list[str]) -> None:
 
 
 def select_category(page: Page, value: str) -> None:
-    sel = page.locator("select[name='category'], select[id*='category']")
+    sel = page.locator('select[name="category"]')
     if sel.count():
         try:
             sel.first.select_option(value=value)
             click.echo(f"  Category ({value}) ✓")
         except Exception:
-            click.echo(f"  ⚠  Category '{value}' not found in dropdown — select manually")
+            click.echo(f"  ⚠  Category value '{value}' not found in dropdown — select manually")
     else:
         click.echo("  ⚠  Category dropdown not found — select manually")
 
@@ -230,10 +232,9 @@ def download_image(url: str) -> Path:
 
 
 def upload_image(page: Page, image_path: Path) -> bool:
-    """Upload an image via a file <input type=file> on the page."""
+    """Upload an image via the qq-uploader file input on the Tindie create form."""
     selectors = [
-        "input[type='file'][name*='image']",
-        "input[type='file'][id*='image']",
+        'input[name="qqfile"]',          # Tindie's FineUploader input
         "input[type='file'][accept*='image']",
         "input[type='file']",
     ]
@@ -241,7 +242,7 @@ def upload_image(page: Page, image_path: Path) -> bool:
         loc = page.locator(sel)
         if loc.count() > 0:
             loc.first.set_input_files(str(image_path))
-            page.wait_for_timeout(1500)
+            page.wait_for_timeout(2000)
             click.echo(f"  Image uploaded ({image_path.name}) ✓")
             return True
     click.echo("  ⚠  Image file input not found — upload manually in the browser")
@@ -249,53 +250,59 @@ def upload_image(page: Page, image_path: Path) -> bool:
 
 
 def fill_form(page: Page, product: dict) -> None:
-    page.wait_for_load_state("networkidle")
+    # domcontentloaded is safer than networkidle — Tindie's create page
+    # has persistent background requests that never fully settle.
+    page.wait_for_load_state("domcontentloaded")
+    page.wait_for_timeout(2000)  # let JS hydrate the form
 
-    # Title
-    fill_field(
-        page,
-        ["input[name='title']", "input[id*='title']", "input[placeholder*='name' i]"],
-        product["name"],
-        "Title",
-    )
+    # Title  (name="title", max 50 chars)
+    fill_field(page, ['input[name="title"]'], product["name"][:50], "Title")
 
-    # Category
+    # Category (name="category", numeric option values)
     select_category(page, tindie_category(product))
 
-    # Price
-    fill_field(
-        page,
-        ["input[name='unit_price']", "input[id*='price']", "input[placeholder*='price' i]"],
-        str(product["price_usd"]),
-        "Price",
-    )
+    # Price  (name="unit_price")
+    fill_field(page, ['input[name="unit_price"]'], str(product["price_usd"]), "Price")
 
-    # Quantity
-    fill_field(
-        page,
-        ["input[name='quantity']", "input[id*='quantity']", "input[id*='stock']"],
-        str(product.get("stock", 0)),
-        "Quantity",
-    )
+    # Stock  (name="num_in_stock")
+    fill_field(page, ['input[name="num_in_stock"]'], str(product.get("stock", 0)), "Quantity")
 
-    # Description
+    # Model number / SKU
+    fill_field(page, ['input[name="model_number"]'], product.get("sku", ""), "Model number")
+
+    # Short description (140 char limit)
+    short = (product.get("description", "") or "").replace("\n", " ").strip()[:140]
+    fill_field(page, ['input[name="short_description"]'], short, "Short description")
+
+    # Dimensions (width × height in mm → cm for Tindie)
+    dims = (product.get("specs") or {}).get("dimensions_mm", "")
+    if dims:
+        try:
+            parts = [p.strip() for p in str(dims).replace("×", "x").split("x")]
+            if len(parts) >= 2:
+                fill_field(page, ['input[name="width"]'],  f"{float(parts[0])/10:.2f}", "Width (cm)")
+                fill_field(page, ['input[name="height"]'], f"{float(parts[1])/10:.2f}", "Height (cm)")
+        except Exception:
+            pass
+
+    # Full description  (name="description", markdown textarea)
     fill_description(page, build_description(product))
 
-    # Open hardware
-    if any(t in product.get("tags", []) for t in ["open-hardware", "open-source"]):
-        check_box(
-            page,
-            ["input[name='open_hardware']", "input[id*='open_hardware']"],
-            "Open hardware",
-        )
-        check_box(
-            page,
-            ["input[name='open_code']", "input[id*='open_code']"],
-            "Open source",
-        )
+    # Open-source / open-hardware URLs from product tags
+    tags = product.get("tags", [])
+    if "open-hardware" in tags or "open-source" in tags:
+        design_url = "https://github.com/whatnick/V93XX_Breakout"
+        code_url   = "https://github.com/whatnick/V93XX_Arduino"
+        fill_field(page, ['input[name="design_url"]'], design_url, "Design URL")
+        fill_field(page, ['input[name="code_url"]'],   code_url,   "Code URL")
 
-    # Tags
-    enter_tags(page, product.get("tags", []))
+    # YouTube URL (from blog post)
+    fill_field(
+        page,
+        ['input[name="youtube_url"]'],
+        "https://www.youtube.com/watch?v=7EaPbl-LAnU",
+        "YouTube URL",
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -374,7 +381,7 @@ def main(sku: str, headless: bool, dry_run: bool, image: str | None) -> None:
 
                 # Navigate to create form
                 click.echo("  Navigating to /products/create/ …")
-                page.goto("https://www.tindie.com/products/create/")
+                page.goto("https://www.tindie.com/products/create/", wait_until="domcontentloaded")
 
                 # Fill all fields
                 click.echo("  Filling form fields…")
