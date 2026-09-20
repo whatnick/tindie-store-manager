@@ -1,0 +1,53 @@
+sku: "USB-BRB-PCB-V01"
+name: "USB Big Red Button Controller PCB"
+description: |
+  Bare controller PCB for building a USB-connected industrial push-button.
+  The design uses a PIC16F1459 microcontroller and provides footprints for
+  USB, ESD protection, a status LED, the contact block, and programming
+  headers.
+
+  KiCad design files, fabrication outputs, an interactive BOM, and a printable
+  PCB carrier are available from the project repository.
+
+  This listing is for the bare PCB only. The push button, contact block, USB
+  cable, printed carrier, electronic components, and programmed firmware are
+  not included.
+price_usd: 12.00
+stock: 0
+category: "Other"
+tags:
+  - usb
+  - push-button
+  - human-interface
+  - pic16f1459
+  - bare-pcb
+  - kicad
+  - automation
+tindie_product_id: null
+active: false
+seller_manufactured: true
+listing_state: "draft"
+ships_from: "Adelaide, South Australia, Australia"
+design_url: "https://github.com/whatnick/USB_BigRed_Button"
+code_url: "https://github.com/whatnick/USB_BigRed_Button/tree/main/software"
+docs_url: "https://github.com/whatnick/USB_BigRed_Button#readme"
+
+specs:
+  voltage_range: "5 V from USB"
+  current_range: null
+  accuracy: null
+  interfaces:
+    - "USB"
+    - "Push-button/contact input"
+    - "Programming headers"
+  connectivity:
+    - "USB connector footprint"
+    - "Industrial contact-block footprint"
+    - "2.54 mm header footprints"
+  dimensions_mm: "Approximately 42.5 x 19.2"
+  weight_g: null
+  extra:
+    microcontroller: "PIC16F1459-I/SS"
+    assembly: "Bare PCB"
+
+images: []
