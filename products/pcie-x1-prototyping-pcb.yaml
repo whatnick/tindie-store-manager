@@ -1,0 +1,56 @@
+sku: "PCIE-X1-PROTO-PCB-V1"
+name: "PCIe x1 Prototyping PCB"
+description: |
+  Passive prototyping PCB with a PCIe x1 edge-card form factor and a grid of
+  through-hole header positions for experimental wiring and adapter projects.
+
+  The board routes edge-connector contacts into the prototyping area. It does
+  not contain a PCIe endpoint controller and is not an active PCIe interface
+  or a PCIe-compliant device.
+
+  Eagle board and schematic source files are published under the CERN Open
+  Hardware Licence v1.1.
+
+  This listing is for the bare PCB only. Headers and electronic components are
+  not included.
+price_usd: 10.00
+stock: 0
+category: "Breakout"
+tags:
+  - pcie
+  - pci-express
+  - prototyping
+  - breakout
+  - edge-card
+  - bare-pcb
+  - open-hardware
+  - eagle
+tindie_product_id: null
+active: false
+seller_manufactured: true
+listing_state: "draft"
+ships_from: "Adelaide, South Australia, Australia"
+design_url: "https://github.com/whatnick/pcix1proto"
+code_url: null
+docs_url: null
+
+specs:
+  voltage_range: null
+  current_range: null
+  accuracy: null
+  interfaces:
+    - "PCIe x1 physical edge connector"
+    - "Through-hole prototyping headers"
+  connectivity:
+    - "A1-A18 and B1-B18 edge contacts"
+    - "Multiple 2x14 header footprints"
+    - "One 2x10 header footprint"
+    - "Two 2x2 header footprints"
+  dimensions_mm: "Approximately 69 x 40"
+  weight_g: null
+  extra:
+    electrical_function: "Passive routing and prototyping board"
+    assembly: "Bare PCB"
+    hardware_license: "CERN Open Hardware Licence v1.1"
+
+images: []
