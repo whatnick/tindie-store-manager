@@ -35,11 +35,18 @@ class Product:
     tags: list[str] = field(default_factory=list)
     specs: ProductSpec = field(default_factory=ProductSpec)
     images: list[str] = field(default_factory=list)
+    image_glob: Optional[str] = None
     tindie_product_id: Optional[str] = None
     active: bool = True
     design_url: Optional[str] = None
     code_url: Optional[str] = None
+    docs_url: Optional[str] = None
     youtube_url: Optional[str] = None
+    seller_manufactured: bool = True
+    listing_state: str = "draft"
+    ships_from: Optional[str] = None
+    shipping: dict = field(default_factory=dict)
+    options: list[dict] = field(default_factory=list)
 
     @classmethod
     def from_yaml(cls, path: Path) -> "Product":

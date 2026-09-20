@@ -31,12 +31,17 @@ def main(live: bool, show_all: bool) -> None:
     if live:
         try:
             api = TindieAPI()
-            for item in api.get_inventory():
-                pid = item.get("product", {}).get("key", "")
-                live_stock[pid] = item.get("quantity", 0)
-            console.print("[dim]Stock sourced from Tindie API[/]\n")
+            reference_id = next(
+                (p.tindie_product_id for p in products if p.tindie_product_id),
+                None,
+            )
+            for item in api.get_inventory(reference_product_id=reference_id):
+                live_stock[str(item.get("id", ""))] = int(
+                    item.get("num_in_stock") or 0
+                )
+            console.print("[dim]Stock sourced from Tindie V2 API[/]\n")
         except TindieAPIError as exc:
-            console.print(f"[red]API error:[/] {exc} — showing local data\n")
+            console.print(f"[red]API error:[/] {exc} - showing local data\n")
 
     store = os.environ.get("TINDIE_USERNAME", "Tindie")
     table = Table(title=f"{store} Tindie Products", box=box.ROUNDED, highlight=True)
@@ -54,8 +59,8 @@ def main(live: bool, show_all: bool) -> None:
             p.name,
             f"${p.price_usd:.2f}",
             str(stock_val),
-            p.tindie_product_id or "—",
-            "✓" if p.active else "✗",
+            p.tindie_product_id or "-",
+            "yes" if p.active else "no",
         )
 
     console.print(table)

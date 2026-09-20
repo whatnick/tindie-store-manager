@@ -1,0 +1,103 @@
+sku: "GAMEPAD-PMOD"
+name: "Dual SNES Controller Gamepad PMOD"
+description: |
+  Hand-assembled Gamepad PMOD for connecting one or two SNES-compatible
+  controllers to FPGA, ASIC, RP2040, and other digital projects through a
+  standard PMOD header.
+
+  The onboard CH32V003 polls both controllers at up to 600 Hz and reports all
+  24 button states as a simple latch, clock, and data stream. Open-source
+  Verilog modules and a MicroPython reader are provided for quick integration.
+
+  Choose a board with the standard dual-controller firmware pre-loaded, or an
+  unloaded board ready for your own CH32V003 firmware. Firmware can later be
+  updated through the PMOD header with a supported programmer.
+
+  Each unit is hand assembled in Adelaide, South Australia. SNES controllers
+  and PMOD host hardware are not included.
+
+  The original open-source design and firmware are by Pat Deegan
+  (psychogenic). Whatnick contributed the dual-connector mechanical support
+  and production-design refinements.
+price_usd: 25.00
+stock: 8
+category: "Gaming"
+tags:
+  - pmod
+  - snes
+  - game-controller
+  - fpga
+  - ch32v003
+  - open-hardware
+  - open-source
+tindie_product_id: "44002"
+active: true
+seller_manufactured: true
+listing_state: "draft"
+ships_from: "Adelaide, South Australia, Australia"
+shipping:
+  domestic:
+    destination: "Australia"
+    carrier: "Australia Post"
+    service: "Tracked Parcel"
+    amount_aud: 20.00
+    tindie_amount_usd: 14.25
+    additional_item_usd: 0.00
+  international_standard:
+    destination: "Everywhere Else"
+    carrier: "Australia Post"
+    service: "International Standard Parcel up to 500g"
+    amount_aud: 42.40
+    tindie_amount_usd: 30.25
+    additional_500g_aud: 12.05
+    additional_item_usd: 8.60
+  international_express:
+    destination: "Everywhere Else"
+    carrier: "Australia Post"
+    service: "International Express Parcel up to 500g"
+    amount_aud: 59.40
+    tindie_amount_usd: 42.35
+    additional_500g_aud: 12.05
+    additional_item_usd: 8.60
+  exchange_rate_usd_per_aud: 0.7132
+  rates_effective: "2026-07-01"
+  source: "https://auspost.com.au/content/dam/auspost_corp/media/documents/post-guides/international-post-charges-easy-guide.pdf"
+design_url: "https://github.com/psychogenic/gamepad-pmod/tree/main/hardware/GamepadPMOD"
+code_url: "https://github.com/psychogenic/gamepad-pmod"
+docs_url: "https://github.com/psychogenic/gamepad-pmod#readme"
+
+specs:
+  voltage_range: "3.3 V PMOD"
+  current_range: null
+  accuracy: null
+  interfaces:
+    - "PMOD"
+    - "SNES controller"
+    - "Latch/clock/data serial output"
+  connectivity:
+    - "One or two SNES-compatible controllers"
+  dimensions_mm: null
+  weight_g: null
+  extra:
+    microcontroller: "CH32V003"
+    controller_poll_rate: "Up to 600 Hz"
+    default_report: "24 bits for two controllers"
+    assembly: "Hand assembled"
+    origin: "Adelaide, South Australia"
+
+options:
+  - label: "Firmware"
+    help_text: "Choose standard firmware pre-loaded or an unloaded CH32V003."
+    required: true
+    choices:
+      - label: "Pre-loaded: 2 controllers, PMOD IO 5/6/7"
+        price_adjustment_usd: 0
+        sku: "GAMEPAD-PMOD-FW"
+        default: true
+      - label: "Unloaded: no firmware"
+        price_adjustment_usd: 0
+        sku: "GAMEPAD-PMOD-BLANK"
+        default: false
+
+image_glob: "signal-2026-09-20-12-41-19-869*.jpg"
+images: []

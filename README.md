@@ -8,8 +8,8 @@ A Git-based tool for managing your [Tindie](https://www.tindie.com) store: produ
 
 - **Product-as-code** — one YAML file per product, version-controlled
 - **Inventory CLI** — check stock, highlight low/out-of-stock items
-- **Tindie API client** — read orders and product data
-- **Playwright automation** — fill and submit the Tindie create-product form automatically, including image upload
+- **Tindie V2 API client** — read the complete store catalog, prices, and stock
+- **Playwright automation** — create draft listings, upload images, and add product options
 - **Generic** — works for any Tindie store; configure via `.env`
 
 ## Requirements
@@ -76,6 +76,31 @@ active: true
 design_url: "https://github.com/you/widget-pcb"
 code_url:   "https://github.com/you/widget-firmware"
 youtube_url: "https://www.youtube.com/watch?v=..."
+docs_url: "https://example.com/docs"
+seller_manufactured: true
+listing_state: "draft"
+ships_from: "Adelaide, South Australia, Australia"
+shipping:
+  domestic:
+    destination: "Australia"
+    carrier: "Australia Post"
+    service: "Tracked Parcel"
+    amount_aud: 20.00
+    tindie_amount_usd: 14.25
+
+options:
+  - label: "Firmware"
+    help_text: "Choose the firmware installed before shipping."
+    required: true
+    choices:
+      - label: "Pre-loaded"
+        price_adjustment_usd: 0
+        sku: "MY-WIDGET-V1-FW"
+        default: true
+      - label: "Unloaded"
+        price_adjustment_usd: 0
+        sku: "MY-WIDGET-V1-BLANK"
+        default: false
 
 specs:
   voltage_range: "3.3–5 V"
@@ -85,9 +110,10 @@ specs:
   extra:
     chip: "MyChip XYZ"
 images: []
+image_glob: "my-widget-*.jpg"  # resolved only when --image-dir is supplied
 ```
 
-See the `products/` directory for 24 real-world examples.
+See the `products/` directory for real-world examples.
 
 ## Scripts
 
@@ -102,15 +128,15 @@ uv run scripts/list_products.py --live      # merge live Tindie API stock
 
 # Update stock
 uv run scripts/update_stock.py MY-WIDGET-V1 10
-uv run scripts/update_stock.py MY-WIDGET-V1 10 --push   # also push to API
 
-# Sync stock from Tindie order history
+# Sync product IDs and stock from the Tindie V2 catalog
 uv run scripts/sync_tindie.py
 uv run scripts/sync_tindie.py --dry-run
 
 # Create a new Tindie listing via browser automation
 uv run scripts/tindie_create_product.py MY-WIDGET-V1
-uv run scripts/tindie_create_product.py MY-WIDGET-V1 --image https://example.com/photo.jpg
+uv run scripts/tindie_create_product.py MY-WIDGET-V1 --image photo-1.jpg --image photo-2.jpg
+uv run scripts/tindie_create_product.py MY-WIDGET-V1 --image-dir C:\path\to\photos
 uv run scripts/tindie_create_product.py MY-WIDGET-V1 --dry-run   # preview without submitting
 uv run scripts/tindie_create_product.py MY-WIDGET-V1 --headless  # no browser window
 ```
@@ -119,10 +145,11 @@ uv run scripts/tindie_create_product.py MY-WIDGET-V1 --headless  # no browser wi
 
 1. Logs into Tindie using `TINDIE_USERNAME` / `TINDIE_PASSWORD` from `.env`
 2. Navigates to `/products/create/`
-3. Fills: title, category, price, stock, model number, short description, PCB dimensions, full description (markdown), design URL, code URL, YouTube URL
-4. Uploads a product image (local file or URL — downloads automatically)
+3. Fills title, category, seller-manufactured state, draft/approval state, price, stock, model number, descriptions, dimensions, and project URLs
+4. Uploads all YAML images, repeated `--image` values, or files matched through `--image-dir`
 5. Pauses so you can review before submitting
-6. After submit, extracts the new product ID from the redirect URL and writes it back to the YAML file
+6. Saves the base product and creates any configured product options
+7. Leaves new listings as drafts by default; after approval, `sync_tindie.py` discovers the numeric V2 product ID by title
 
 ## Credentials
 
@@ -133,17 +160,27 @@ Copy `.env.example` to `.env` and fill in:
 | `TINDIE_USERNAME` | Your Tindie username |
 | `TINDIE_PASSWORD` | Your Tindie login password (used by Playwright only) |
 | `TINDIE_API_KEY` | Tindie → Account → Settings → API Keys |
+| `TINDIE_STORE_ID` | Optional numeric V2 store ID; otherwise inferred from an existing product |
 
 `.env` is in `.gitignore` — it is never committed.
 
 ## Tindie API notes
 
-The Tindie REST API (`/api/v1/`) supports:
-- `GET /api/v1/order/` — list orders (used to discover product IDs)
-- `GET /api/v1/product/` — list products
-- `GET /api/v1/orderitem/` — list order line items
+The authenticated V2 API supports read-only catalog maintenance:
 
-There is **no inventory/stock endpoint** and **no product-create endpoint** via the API. Stock management must be done via the web UI; this repo automates that with Playwright.
+- `GET /api/v2/products/?store=<store_id>` — paginated store products
+- `GET /api/v2/products/<id>/` — product details, price, and stock
+- `GET /api/v2/products/<id>/options/` — product options
+- `GET /api/v2/products/<id>/images/` — product images
+- `GET /api/v1/order/` — orders through the official V1 API
+
+Although V2 advertises write methods, seller API keys return `401 Unauthorized`
+for product updates. This tool therefore uses V2 for reconciliation and the
+authenticated Tindie web UI through Playwright for product creation.
+
+Tindie shipping rates are configured in USD through the seller UI. If a YAML
+records source rates in another currency, retain both the source amount and the
+converted Tindie amount together with the exchange rate and effective date.
 
 ## Adding / updating dependencies
 

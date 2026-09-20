@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tindie_create_product.py — Generic Playwright script to list any product on Tindie.
+tindie_create_product.py - Generic Playwright script to list any product on Tindie.
 
 Usage:
     uv run scripts/tindie_create_product.py <SKU>
@@ -11,8 +11,8 @@ Usage:
 Credentials are read from .env (TINDIE_USERNAME, TINDIE_PASSWORD).
 
 After a successful submission the script:
-  - Extracts the Tindie product ID from the redirect URL
-  - Writes it back into the product YAML file automatically
+  - Creates any configured product options
+  - Reports the product slug for subsequent review and reconciliation
 """
 
 from __future__ import annotations
@@ -20,7 +20,6 @@ from __future__ import annotations
 import re
 import sys
 import tempfile
-import time
 import urllib.request
 from pathlib import Path
 
@@ -35,12 +34,14 @@ ROOT = Path(__file__).resolve().parents[1]
 PRODUCTS_DIR = ROOT / "products"
 
 # ---------------------------------------------------------------------------
-# Tindie category name → <option value> mapping (from /products/create/ form)
+# Tindie category name to <option value> mapping (from /products/create/ form)
 # ---------------------------------------------------------------------------
 CATEGORY_MAP: dict[str, str] = {
     "Energy Monitor": "77",    # IoT & Smart Home
     "IoT": "77",               # IoT & Smart Home
     "Breakout": "65",          # DIY Electronics > Prototyping & Fabrication
+    "Gaming": "54",            # DIY Electronics > Gaming
+    "Boards and Shields": "100",
     "Other": "69",             # DIY Electronics
 }
 
@@ -67,21 +68,9 @@ def load_product(yaml_path: Path) -> dict:
     return yaml.safe_load(yaml_path.read_text())
 
 
-def write_tindie_id(yaml_path: Path, tindie_id: str) -> None:
-    content = yaml_path.read_text()
-    updated = re.sub(
-        r"^tindie_product_id:.*$",
-        f'tindie_product_id: "{tindie_id}"',
-        content,
-        flags=re.MULTILINE,
-    )
-    yaml_path.write_text(updated)
-    click.echo(f"  ✓ Updated {yaml_path.name} with tindie_product_id: {tindie_id}")
-
-
 def tindie_category(product: dict) -> str:
     cat = product.get("category", "")
-    return CATEGORY_MAP.get(cat, "iot-home")
+    return CATEGORY_MAP.get(cat, "69")
 
 
 def build_description(product: dict) -> str:
@@ -114,7 +103,7 @@ def build_description(product: dict) -> str:
 # ---------------------------------------------------------------------------
 
 def login(page: Page, username: str, password: str) -> None:
-    click.echo("  Navigating to login page…")
+    click.echo("  Navigating to login page...")
     page.goto("https://www.tindie.com/accounts/login/")
     page.wait_for_load_state("networkidle")
     # Tindie allauth fields: name="auth-username" / name="auth-password"
@@ -124,12 +113,12 @@ def login(page: Page, username: str, password: str) -> None:
     page.press('input[name="auth-password"]', "Enter")
     try:
         page.wait_for_load_state("networkidle", timeout=20_000)
-        click.echo("  Logged in ✓")
+        click.echo("  Logged in")
     except Exception:
         pass
     if "login" in page.url:
         raise RuntimeError(
-            "Login failed — still on login page. Check TINDIE_USERNAME / TINDIE_PASSWORD."
+            "Login failed - still on login page. Check TINDIE_USERNAME / TINDIE_PASSWORD."
         )
 
 
@@ -139,9 +128,9 @@ def fill_field(page: Page, selectors: list[str], value: str, label: str) -> bool
         loc = page.locator(sel)
         if loc.count() > 0:
             loc.first.fill(value)
-            click.echo(f"  {label} ✓")
+            click.echo(f"  {label}: OK")
             return True
-    click.echo(f"  ⚠  {label}: no matching field found — fill manually")
+    click.echo(f"  WARNING: {label}: no matching field found - fill manually")
     return False
 
 
@@ -151,9 +140,9 @@ def check_box(page: Page, selectors: list[str], label: str) -> bool:
         if loc.count() > 0:
             if not loc.first.is_checked():
                 loc.first.check()
-            click.echo(f"  {label} ✓")
+            click.echo(f"  {label}: OK")
             return True
-    click.echo(f"  ⚠  {label}: checkbox not found")
+    click.echo(f"  WARNING: {label}: checkbox not found")
     return False
 
 
@@ -163,7 +152,7 @@ def fill_description(page: Page, text: str) -> None:
     ta = page.locator('textarea[name="description"], textarea[id="id_description"]')
     if ta.count():
         ta.first.fill(text)
-        click.echo("  Description (textarea) ✓")
+        click.echo("  Description (textarea): OK")
         return
 
     # 2. Contenteditable div (Quill, Draft.js, etc.)
@@ -171,7 +160,7 @@ def fill_description(page: Page, text: str) -> None:
     if ce.count():
         ce.first.click()
         ce.first.fill(text)
-        click.echo("  Description (contenteditable) ✓")
+        click.echo("  Description (contenteditable): OK")
         return
 
     # 3. TinyMCE / CKEditor iframe
@@ -183,12 +172,12 @@ def fill_description(page: Page, text: str) -> None:
                 body.first.click()
                 page.keyboard.press("Control+a")
                 page.keyboard.type(text)
-                click.echo("  Description (editor iframe) ✓")
+                click.echo("  Description (editor iframe): OK")
                 return
         except Exception:
             continue
 
-    click.echo("  ⚠  Description: could not fill automatically — paste manually")
+    click.echo("  WARNING: Description could not be filled automatically - paste manually")
 
 
 def enter_tags(page: Page, tags: list[str]) -> None:
@@ -201,9 +190,9 @@ def enter_tags(page: Page, tags: list[str]) -> None:
             tag_input.first.fill(tag)
             page.keyboard.press("Enter")
             page.wait_for_timeout(300)
-        click.echo(f"  Tags ({len(tags)}) ✓")
+        click.echo(f"  Tags ({len(tags)}): OK")
     else:
-        click.echo(f"  ⚠  Tag input not found — add manually: {', '.join(tags)}")
+        click.echo(f"  WARNING: Tag input not found - add manually: {', '.join(tags)}")
 
 
 def select_category(page: Page, value: str) -> None:
@@ -211,18 +200,28 @@ def select_category(page: Page, value: str) -> None:
     if sel.count():
         try:
             sel.first.select_option(value=value)
-            click.echo(f"  Category ({value}) ✓")
+            click.echo(f"  Category ({value}): OK")
         except Exception:
-            click.echo(f"  ⚠  Category value '{value}' not found in dropdown — select manually")
+            click.echo(f"  WARNING: Category value '{value}' not found - select manually")
     else:
-        click.echo("  ⚠  Category dropdown not found — select manually")
+        click.echo("  WARNING: Category dropdown not found - select manually")
+
+
+def select_field(page: Page, name: str, value: str, label: str) -> bool:
+    field = page.locator(f'select[name="{name}"]')
+    if not field.count():
+        click.echo(f"  WARNING: {label}: dropdown not found")
+        return False
+    field.first.select_option(value=value)
+    click.echo(f"  {label}: OK")
+    return True
 
 
 def download_image(url: str) -> Path:
     """Download an image URL to a temp file and return its path."""
     suffix = Path(url.split("?")[0]).suffix or ".jpg"
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
-    click.echo(f"  Downloading image from {url} …")
+    click.echo(f"  Downloading image from {url}...")
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req) as resp:
         tmp.write(resp.read())
@@ -243,14 +242,14 @@ def upload_image(page: Page, image_path: Path) -> bool:
         if loc.count() > 0:
             loc.first.set_input_files(str(image_path))
             page.wait_for_timeout(2000)
-            click.echo(f"  Image uploaded ({image_path.name}) ✓")
+            click.echo(f"  Image uploaded ({image_path.name}): OK")
             return True
-    click.echo("  ⚠  Image file input not found — upload manually in the browser")
+    click.echo("  WARNING: Image file input not found - upload manually in the browser")
     return False
 
 
 def fill_form(page: Page, product: dict) -> None:
-    # domcontentloaded is safer than networkidle — Tindie's create page
+    # domcontentloaded is safer than networkidle because Tindie's create page
     # has persistent background requests that never fully settle.
     page.wait_for_load_state("domcontentloaded")
     page.wait_for_timeout(2000)  # let JS hydrate the form
@@ -260,6 +259,18 @@ def fill_form(page: Page, product: dict) -> None:
 
     # Category (name="category", numeric option values)
     select_category(page, tindie_category(product))
+    select_field(
+        page,
+        "supply",
+        "0" if product.get("seller_manufactured", True) else "1",
+        "Manufactured by seller",
+    )
+    select_field(
+        page,
+        "state",
+        product.get("listing_state", "draft"),
+        "Listing state",
+    )
 
     # Price  (name="unit_price")
     fill_field(page, ['input[name="unit_price"]'], str(product["price_usd"]), "Price")
@@ -274,11 +285,11 @@ def fill_form(page: Page, product: dict) -> None:
     short = (product.get("description", "") or "").replace("\n", " ").strip()[:140]
     fill_field(page, ['input[name="short_description"]'], short, "Short description")
 
-    # Dimensions (width × height in mm → cm for Tindie)
+    # Dimensions (width x height in mm to cm for Tindie)
     dims = (product.get("specs") or {}).get("dimensions_mm", "")
     if dims:
         try:
-            parts = [p.strip() for p in str(dims).replace("×", "x").split("x")]
+            parts = [p.strip() for p in str(dims).replace("\u00d7", "x").split("x")]
             if len(parts) >= 2:
                 fill_field(page, ['input[name="width"]'],  f"{float(parts[0])/10:.2f}", "Width (cm)")
                 fill_field(page, ['input[name="height"]'], f"{float(parts[1])/10:.2f}", "Height (cm)")
@@ -288,20 +299,113 @@ def fill_form(page: Page, product: dict) -> None:
     # Full description  (name="description", markdown textarea)
     fill_description(page, build_description(product))
 
-    # Open-source / open-hardware URLs — read from YAML fields if present
+    # Open-source / open-hardware URLs from YAML fields.
     tags = product.get("tags", [])
     if "open-hardware" in tags or "open-source" in tags:
         design_url = product.get("design_url", "")
         code_url   = product.get("code_url", "")
+        docs_url   = product.get("docs_url", "")
         if design_url:
             fill_field(page, ['input[name="design_url"]'], design_url, "Design URL")
         if code_url:
             fill_field(page, ['input[name="code_url"]'],   code_url,   "Code URL")
+        if docs_url:
+            fill_field(page, ['input[name="docs_url"]'], docs_url, "Documentation URL")
 
-    # YouTube URL — read from YAML if present
+    # YouTube URL from YAML.
     youtube_url = product.get("youtube_url", "")
     if youtube_url:
         fill_field(page, ['input[name="youtube_url"]'], youtube_url, "YouTube URL")
+
+
+def extract_product_slug(url: str) -> str | None:
+    for pattern in (
+        r"/products/edit/([^/]+)/?",
+        r"/products/[^/]+/([^/]+)/?",
+    ):
+        match = re.search(pattern, url)
+        if match:
+            return match.group(1)
+    return None
+
+
+def create_options(
+    page: Page,
+    slug: str,
+    options: list[dict],
+    *,
+    submit: bool = True,
+) -> None:
+    """Create product options after the base product has been saved."""
+    for option in options:
+        page.goto(
+            f"https://www.tindie.com/products/edit/{slug}/options/new/",
+            wait_until="domcontentloaded",
+        )
+        page.wait_for_timeout(1000)
+        fill_field(page, ['input[name="label"]'], option["label"], "Option label")
+        fill_field(
+            page,
+            ['input[name="help_text"]'],
+            option.get("help_text", ""),
+            "Option help text",
+        )
+        required = page.locator('input[name="required"]')
+        if required.count() and option.get("required", True) != required.first.is_checked():
+            required.first.click()
+
+        choices = option.get("choices", [])
+        if not choices:
+            raise RuntimeError(f"Option '{option['label']}' has no choices.")
+
+        for index, choice in enumerate(choices):
+            if index:
+                page.locator("a.add-row").click()
+                page.locator(f'input[name="choices-{index}-label"]').wait_for()
+            prefix = f"choices-{index}"
+            fill_field(
+                page,
+                [f'input[name="{prefix}-label"]'],
+                choice["label"],
+                f"Choice {index + 1}",
+            )
+            fill_field(
+                page,
+                [f'input[name="{prefix}-change_unit_price"]'],
+                str(choice.get("price_adjustment_usd", 0)),
+                f"Choice {index + 1} price adjustment",
+            )
+            if choice.get("stock") is not None:
+                fill_field(
+                    page,
+                    [f'input[name="{prefix}-num_in_stock"]'],
+                    str(choice["stock"]),
+                    f"Choice {index + 1} stock",
+                )
+            if choice.get("sku"):
+                fill_field(
+                    page,
+                    [f'input[name="{prefix}-model_number"]'],
+                    choice["sku"],
+                    f"Choice {index + 1} SKU",
+                )
+            default = page.locator(f'input[name="{prefix}-default"]')
+            if default.count() and choice.get("default", False):
+                default.first.check()
+
+        if not submit:
+            click.echo(f"  Option '{option['label']}' filled without saving")
+            continue
+
+        page.locator('input[name="submit"]#id_submit').click()
+        page.wait_for_load_state("domcontentloaded")
+        if page.url.endswith("/options/new/"):
+            errors = page.locator(".errorlist, .alert-danger, .has-error").all_text_contents()
+            raise RuntimeError(
+                f"Could not create option '{option['label']}': "
+                + ("; ".join(errors) if errors else "unknown validation error")
+            )
+        click.echo(f"  Option '{option['label']}' created")
 
 
 # ---------------------------------------------------------------------------
@@ -314,14 +418,26 @@ def fill_form(page: Page, product: dict) -> None:
 @click.option("--dry-run", is_flag=True, default=False, help="Fill form but do not submit.")
 @click.option(
     "--image",
-    default=None,
-    help="URL or local path to a product image to upload automatically.",
+    "images",
+    multiple=True,
+    help="Image URL or local path; repeat to upload multiple images.",
 )
-def main(sku: str, headless: bool, dry_run: bool, image: str | None) -> None:
+@click.option(
+    "--image-dir",
+    type=click.Path(path_type=Path, file_okay=False),
+    help="Directory used with the YAML image_glob pattern.",
+)
+def main(
+    sku: str,
+    headless: bool,
+    dry_run: bool,
+    images: tuple[str, ...],
+    image_dir: Path | None,
+) -> None:
     """List a product on Tindie by SKU.
 
     Reads credentials from .env (TINDIE_USERNAME, TINDIE_PASSWORD).
-    After successful submission, updates tindie_product_id in the YAML file.
+    New listings default to draft and may include product options.
     """
     import os
 
@@ -332,18 +448,6 @@ def main(sku: str, headless: bool, dry_run: bool, image: str | None) -> None:
             "Set TINDIE_USERNAME and TINDIE_PASSWORD in your .env file."
         )
 
-    # Resolve image to a local path (download if URL)
-    image_path: Path | None = None
-    _tmp_image: Path | None = None
-    if image:
-        if image.startswith("http://") or image.startswith("https://"):
-            image_path = download_image(image)
-            _tmp_image = image_path
-        else:
-            image_path = Path(image)
-            if not image_path.exists():
-                raise click.ClickException(f"Image file not found: {image}")
-
     # Load product
     try:
         yaml_path = find_yaml(sku)
@@ -351,16 +455,44 @@ def main(sku: str, headless: bool, dry_run: bool, image: str | None) -> None:
         raise click.ClickException(str(e))
 
     product = load_product(yaml_path)
+    image_sources = list(images) or list(product.get("images", []))
+    image_glob = product.get("image_glob")
+    if not image_sources and image_glob:
+        if image_dir is None:
+            raise click.UsageError(
+                f"This product uses image_glob '{image_glob}'; pass --image-dir."
+            )
+        image_sources = [str(path) for path in sorted(image_dir.glob(image_glob))]
+        if not image_sources:
+            raise click.ClickException(
+                f"No images matched '{image_glob}' in {image_dir}"
+            )
+
+    image_paths: list[Path] = []
+    temporary_images: list[Path] = []
+    for image in image_sources:
+        if image.startswith("http://") or image.startswith("https://"):
+            image_path = download_image(image)
+            image_paths.append(image_path)
+            temporary_images.append(image_path)
+        else:
+            image_path = Path(image)
+            if not image_path.is_absolute():
+                image_path = ROOT / image_path
+            if not image_path.exists():
+                raise click.ClickException(f"Image file not found: {image}")
+            image_paths.append(image_path)
+
     click.echo(f"\nProduct : {product['name']}")
     click.echo(f"Price   : ${product['price_usd']:.2f}")
     click.echo(f"Stock   : {product.get('stock', 0)}")
     click.echo(f"YAML    : {yaml_path.name}")
-    if image_path:
-        click.echo(f"Image   : {image_path}")
+    if image_paths:
+        click.echo(f"Images  : {len(image_paths)}")
 
     if product.get("tindie_product_id"):
         click.echo(
-            f"\n⚠  Already has tindie_product_id={product['tindie_product_id']}. "
+            f"\nWARNING: Already has tindie_product_id={product['tindie_product_id']}. "
             "Continuing will create a duplicate listing."
         )
         if not click.confirm("Continue anyway?"):
@@ -379,37 +511,42 @@ def main(sku: str, headless: bool, dry_run: bool, image: str | None) -> None:
                 login(page, username, password)
 
                 # Navigate to create form
-                click.echo("  Navigating to /products/create/ …")
+                click.echo("  Navigating to /products/create/...")
                 page.goto("https://www.tindie.com/products/create/", wait_until="domcontentloaded")
 
                 # Fill all fields
-                click.echo("  Filling form fields…")
+                click.echo("  Filling form fields...")
                 fill_form(page, product)
 
                 # Upload image if provided
-                if image_path:
+                for image_path in image_paths:
                     upload_image(page, image_path)
 
                 if dry_run:
-                    click.echo("\n[dry-run] Form filled — NOT submitting. Review the browser.")
-                    click.pause("  Press any key to close the browser…")
+                    click.echo("\n[dry-run] Form filled - NOT submitting. Review the browser.")
+                    if product.get("options"):
+                        click.echo(
+                            f"  {len(product['options'])} option(s) will be created after saving."
+                        )
+                    if not headless:
+                        click.pause("  Press any key to close the browser...")
                     browser.close()
                     return
 
                 # Pause for user to add images / review (only if no image supplied)
-                if not image_path:
+                if not image_paths:
                     click.echo(
-                        "\n✅ Form filled. Add product images in the browser, then press ENTER to submit."
+                        "\nForm filled. Add product images in the browser, then press ENTER to submit."
                     )
-                    click.pause("  Press any key to submit…")
+                    click.pause("  Press any key to submit...")
                 else:
-                    click.echo("\n✅ Form filled with image. Press ENTER to submit.")
-                    click.pause("  Press any key to submit…")
+                    click.echo("\nForm filled with image. Press ENTER to submit.")
+                    click.pause("  Press any key to submit...")
 
-                # Submit — use the exact Save button from the Tindie form
+                # Submit using the exact Save button from the Tindie form.
                 submit = page.locator('input[name="submit"]#id_submit')
                 submit.click()
-                click.echo("  Submitting…")
+                click.echo("  Submitting...")
 
                 # Wait for navigation away from the create page (any redirect)
                 try:
@@ -418,7 +555,7 @@ def main(sku: str, headless: bool, dry_run: bool, image: str | None) -> None:
                         timeout=30_000,
                     )
                 except Exception:
-                    pass  # fall through — inspect whatever URL we landed on
+                    pass  # Fall through and inspect the current URL.
 
                 new_url = page.url
                 click.echo(f"\n  Landed on: {new_url}")
@@ -427,32 +564,44 @@ def main(sku: str, headless: bool, dry_run: bool, image: str | None) -> None:
                 if "/create/" in new_url or "/products/create" in new_url:
                     errors = page.locator(".errorlist, .alert-danger, .has-error").all_text_contents()
                     if errors:
-                        click.echo(f"\n⚠  Form errors:\n" + "\n".join(errors))
+                        click.echo(f"\nWARNING: Form errors:\n" + "\n".join(errors))
                     raise RuntimeError(
-                        "Still on create page after submit — check the browser for validation errors."
+                        "Still on create page after submit - check the browser for validation errors."
                     )
 
-                click.echo(f"\n🎉 Listed successfully!\n   {new_url}")
+                click.echo(f"\nListed successfully!\n   {new_url}")
 
-                # Extract product ID from URL — works for any store slug
-                id_match = re.search(r"/products/[^/]+/[^/]+/(\d+)", new_url)
-                if id_match:
-                    write_tindie_id(yaml_path, id_match.group(1))
-                else:
+                slug = extract_product_slug(new_url)
+                if not slug:
+                    raise RuntimeError(
+                        f"Could not determine the new product slug from {new_url}"
+                    )
+
+                if product.get("options"):
+                    create_options(page, slug, product["options"])
+
+                # Tindie URLs use slugs rather than numeric IDs. V2 will expose
+                # the ID once the listing is visible through the API.
+                click.echo(
+                    f"  Product slug: {slug}. Run sync_tindie.py after approval "
+                    "to reconcile live data."
+                )
+                if not product.get("tindie_product_id"):
                     click.echo(
-                        "  ⚠  Could not parse product ID from URL — update YAML manually."
+                        "  Numeric Tindie ID remains unset until the listing appears in V2."
                     )
 
             except Exception as exc:
                 click.echo(f"\n[error] {exc}", err=True)
-                click.pause("  Press any key to close (browser stays open for inspection)…")
+                if not headless:
+                    click.pause("  Press any key to close (browser stays open for inspection)...")
                 raise SystemExit(1)
             finally:
                 browser.close()
     finally:
         # Clean up downloaded temp image
-        if _tmp_image and _tmp_image.exists():
-            _tmp_image.unlink(missing_ok=True)
+        for temporary_image in temporary_images:
+            temporary_image.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":
