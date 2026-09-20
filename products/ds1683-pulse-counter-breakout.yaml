@@ -1,0 +1,53 @@
+sku: "DS1683-QG-BRK-V1"
+name: "DS1683 I2C Pulse Counter Breakout"
+description: |
+  Compact breakout for the Maxim/Analog Devices DS1683 elapsed-time recorder
+  and event counter. The board exposes I2C and event inputs through compact
+  connector footprints, with onboard 3.3 V regulation and level shifting.
+
+  The DS1683 provides non-volatile elapsed-time and event counting for runtime
+  logging, equipment maintenance, and usage monitoring. KiCad design files,
+  an interactive BOM, and a companion Arduino demonstration sketch are
+  available from the project repositories.
+
+  Cables, headers, event sensors, and a host controller are not included.
+price_usd: 24.00
+stock: 0
+category: "Breakout"
+tags:
+  - ds1683
+  - pulse-counter
+  - event-counter
+  - elapsed-time
+  - i2c
+  - grove
+  - qwiic
+  - breakout
+tindie_product_id: null
+active: false
+seller_manufactured: true
+listing_state: "draft"
+ships_from: "Adelaide, South Australia, Australia"
+design_url: "https://github.com/whatnick/DS1682_Breakout_Qwiic_Grove"
+code_url: "https://github.com/whatnick/DS1682_Arduino"
+docs_url: "https://github.com/whatnick/DS1682_Breakout_Qwiic_Grove#readme"
+
+specs:
+  voltage_range: "5 V connector-side supply; 3.3 V internal rail"
+  current_range: null
+  accuracy: null
+  interfaces:
+    - "I2C"
+    - "Event input"
+    - "Alarm output"
+  connectivity:
+    - "4-pin 2.0 mm connector footprint"
+    - "2-pin 1.0 mm connector footprint"
+  dimensions_mm: "Approximately 20.0 x 24.2"
+  weight_g: null
+  extra:
+    chip: "DS1683S+"
+    i2c_address: "0x6B"
+    assembly: "Assembled breakout"
+
+images: []
