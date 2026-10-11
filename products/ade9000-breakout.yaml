@@ -1,0 +1,109 @@
+sku: "ADE9000-BREAKOUT"
+name: "ADE9000 Polyphase Energy Monitor Breakout"
+description: |
+  Assembled development breakout for the Analog Devices ADE9000 polyphase
+  energy-metering and power-quality IC. The board exposes three voltage
+  channels, four current channels (phases A/B/C plus neutral), and the ADE9000
+  SPI, interrupt, calibration-frequency, data-ready, clock, and reset signals.
+
+  The analog signal conditioning follows the ADE9000 datasheet test circuit.
+  It includes RC anti-aliasing filters on all seven differential input pairs,
+  2.4 ohm burden resistors for the four CT inputs, voltage-divider components
+  for the three voltage channels, a 24.576 MHz crystal, reset network, voltage
+  reference decoupling, and a CF2 activity LED. Current transformers connect
+  through four 3.5 mm stereo sockets and voltage inputs use screw terminals.
+  A breadboard-compatible 0.1 inch digital header footprint provides access
+  to the 3.3 V SPI and control interface.
+
+  The ADE9000 supports energy measurement, RMS values, waveform sampling,
+  power-quality monitoring, zero-crossing detection, and calibration outputs.
+  SPI operates in mode 0 at up to 20 MHz. Complete KiCad design files, a
+  purchasing BOM, interactive BOM, 3D model, and assembly STEP export are
+  available in the open-hardware GitHub repository.
+
+  What's included:
+  - 1x fully assembled ADE9000 breakout board
+  - ADE9000, crystal, filtering, burden/divider networks, connectors, and LED
+  - Pin headers are supplied unsoldered where applicable
+
+  This is a development board, not a certified energy meter. It has no
+  galvanic isolation and must not be connected directly to hazardous voltages
+  without correctly rated external isolation, protection, fusing, enclosure,
+  and appropriate electrical-safety practices. Current transformers and host
+  controller are not included.
+price_usd: 84.95
+stock: 10
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - power-quality
+  - three-phase
+  - ade9000
+  - spi
+  - breakout
+  - open-hardware
+tindie_product_id: "44103"
+active: true
+seller_manufactured: true
+listing_state: "draft"
+ships_from: "Australia"
+shipping:
+  domestic:
+    destination: "Australia"
+    carrier: "Australia Post"
+    service: "Tracked Parcel"
+    amount_aud: 20.00
+    tindie_amount_usd: 14.25
+    additional_item_usd: 0.00
+  international_standard:
+    destination: "Everywhere Else"
+    carrier: "Australia Post"
+    service: "International Standard Parcel up to 500g"
+    amount_aud: 42.40
+    tindie_amount_usd: 30.25
+    additional_500g_aud: 12.05
+    additional_item_usd: 8.60
+  international_express:
+    destination: "Everywhere Else"
+    carrier: "Australia Post"
+    service: "International Express Parcel up to 500g"
+    amount_aud: 59.40
+    tindie_amount_usd: 42.35
+    additional_500g_aud: 12.05
+    additional_item_usd: 8.60
+  exchange_rate_usd_per_aud: 0.7132
+  rates_effective: "2026-07-01"
+  source: "https://auspost.com.au/content/dam/auspost_corp/media/documents/post-guides/international-post-charges-easy-guide.pdf"
+design_url: "https://github.com/whatnick/ADE9000_Breakout"
+code_url: null
+docs_url: "https://github.com/whatnick/ADE9000_Breakout#readme"
+youtube_url: null
+
+specs:
+  voltage_range: "3.3 V supply; analog inputs up to +/-1 V differential at PGA gain 1"
+  current_range: "Sensor-dependent; four differential CT channels with 2.4 ohm burdens"
+  accuracy: "ADE9000 supports IEC 62053-22 Class 0.2 and IEC 62053-21 Class 1"
+  interfaces:
+    - "SPI mode 0, up to 20 MHz"
+    - "IRQ0 and IRQ1"
+    - "CF1 through CF4 / data-ready"
+  connectivity:
+    - "Four 3.5 mm stereo CT inputs"
+    - "Three 3.5 mm screw-terminal voltage inputs"
+    - "2.54 mm digital breakout header"
+  dimensions_mm: "65 x 55"
+  weight_g: null
+  extra:
+    metering_ic: "Analog Devices ADE9000ACPZ"
+    channels: "Three voltage and four current (A/B/C plus neutral)"
+    crystal: "24.576 MHz"
+    analog_filter: "1 kohm / 22 nF anti-alias filtering"
+    assembly: "Fully assembled"
+    hardware_license: "TAPR Open Hardware License v1.0"
+    origin: "Australia"
+
+options: []
+image_glob: null
+images:
+  - "https://raw.githubusercontent.com/whatnick/ADE9000_Breakout/main/docs/images/ADE9000_Breakout_isometric_top.png"
+  - "https://raw.githubusercontent.com/whatnick/ADE9000_Breakout/main/docs/images/ADE9000_Breakout_isometric_bottom.png"
