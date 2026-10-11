@@ -3,7 +3,7 @@ name: "ADE7816 Breakout"
 description: |
   ADE7816 6-Channel Single Phase Energy Monitor ASIC Breakout
 price_usd: 65.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

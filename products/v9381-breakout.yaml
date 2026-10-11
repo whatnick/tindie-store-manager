@@ -22,7 +22,7 @@ description: |
   - Schematic & PCB: https://github.com/whatnick/V93XX_Breakout
   - Arduino library: https://github.com/whatnick/V93XX_Arduino
 price_usd: 30.00
-stock: 0
+stock: 5
 category: "Energy Monitor"
 tags:
   - energy-monitor

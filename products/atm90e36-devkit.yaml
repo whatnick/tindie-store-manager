@@ -3,7 +3,7 @@ name: "ATM90E36 devkit"
 description: |
   ATM90E32/36 Development Kit
 price_usd: 50.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

@@ -3,7 +3,7 @@ name: "CS5464 Breakout"
 description: |
   CS5464 Breakout Module for driver and product development
 price_usd: 20.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

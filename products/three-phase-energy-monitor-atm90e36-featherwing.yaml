@@ -3,7 +3,7 @@ name: "Three-phase Energy Monitor - ATM90E36 Featherwing"
 description: |
   3-phase Energy Monitoring platform compatible with Adafruit feather series or any controller with a SPI-bus
 price_usd: 60.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

@@ -3,7 +3,7 @@ name: "Energy Monitor Featherwing"
 description: |
   Featherwing for Adafruit Feather series, with dedicated Energy monitoring function
 price_usd: 30.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

@@ -3,7 +3,7 @@ name: "NodeMCU Energy Monitor (PCB/Kit)"
 description: |
   NodeMCU Energy Monitor shield
 price_usd: 8.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

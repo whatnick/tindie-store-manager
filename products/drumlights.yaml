@@ -3,7 +3,7 @@ name: "Drumlights"
 description: |
   Arduino Nano shield for powering LED&#39;s based on piezo signal
 price_usd: 20.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

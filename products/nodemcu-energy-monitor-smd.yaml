@@ -3,7 +3,7 @@ name: "NodeMCU Energy Monitor SMD"
 description: |
   NodeMCU based Wifi Energy Monitor (SMD version) fully assembled with option NodeMCU and ADS1115
 price_usd: 20.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

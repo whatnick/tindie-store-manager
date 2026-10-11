@@ -14,6 +14,10 @@ build/
 .venv/
 venv/
 env/
+/bin/
+/lib/
+/lib64/
+/pyvenv.cfg
 
 # Secrets
 .env

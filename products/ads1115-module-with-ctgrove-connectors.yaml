@@ -3,7 +3,7 @@ name: "ADS1115 Module with CT/Grove Connectors"
 description: |
   An i2c extension board designed to be used with NodeMCU Emon or other Grove based systems for connecting CT sensors from additional channels
 price_usd: 15.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

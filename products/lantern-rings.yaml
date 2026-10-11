@@ -3,7 +3,7 @@ name: "Lantern Rings"
 description: |
   Lantern Corp Ring - Made to Measure
 price_usd: 10.00
-stock: 10
+stock: 8
 category: "Energy Monitor"
 tags:
   - energy-monitor

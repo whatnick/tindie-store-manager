@@ -3,7 +3,7 @@ name: "iCE40 Feather"
 description: |
   iCE40 UP5K based FPGA development and learning platform in Feather form factor
 price_usd: 60.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

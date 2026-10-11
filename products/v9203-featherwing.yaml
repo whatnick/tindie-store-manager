@@ -3,7 +3,7 @@ name: "V9203 FeatherWing"
 description: |
   V9203 Devkit for testing the Vangotech V9203 3-phase energy monitor ASIC with an Adafruit Feather form factor boards
 price_usd: 60.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

@@ -3,7 +3,7 @@ name: "ATM90E26 FeatherWing"
 description: |
   ATM90E26 Utility Grade Energy Monitor in a Featherwing
 price_usd: 35.00
-stock: 10
+stock: 0
 category: "Energy Monitor"
 tags:
   - energy-monitor

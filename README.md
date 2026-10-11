@@ -164,6 +164,103 @@ Copy `.env.example` to `.env` and fill in:
 
 `.env` is in `.gitignore` — it is never committed.
 
+## Google Ads MCP
+
+The official
+[`googleads/google-ads-mcp`](https://github.com/googleads/google-ads-mcp)
+server can provide Copilot CLI with Google Ads customer discovery, reporting
+queries, resource metadata, metrics, and segments. Its current MCP tools are
+read-only; use the results to plan and evaluate Tindie promotion rather than
+assuming it can create or edit campaigns.
+
+1. Enable the Google Ads API in a Google Cloud project.
+2. Confirm the project has Explorer, Basic, or Standard Google Ads API access
+   in the Google Ads API Overview page in Google Cloud Console.
+3. Configure Application Default Credentials with the
+   `https://www.googleapis.com/auth/adwords` scope.
+4. Add the Google Ads variables from `.env.example` to the ignored `.env`.
+5. Register the server from this repository root:
+
+```powershell
+$launcher = (Resolve-Path .\scripts\run_google_ads_mcp.ps1).Path
+& $env:ComSpec /d /c "copilot mcp add google-ads-mcp -- powershell -NoProfile -ExecutionPolicy Bypass -File `"$launcher`""
+copilot mcp list
+```
+
+The MCP configuration stores only the path to the checked-in launcher. The
+launcher reads credentials from the ignored `.env`, so secrets remain outside
+Git. Restart Copilot CLI after adding or changing the server. Use
+`list_accessible_customers` first, then query campaign and conversion
+performance with `search`.
+
+Set `GOOGLE_ADS_CUSTOMER_ID` and the campaign-specific ad-group variables from
+`.env.example` in the ignored `.env` before running either stock gate. Account
+and resource identifiers must not be committed.
+
+Google sunset developer tokens on September 9, 2026. Current MCP releases use
+the API access level associated with the Google Cloud project that issued the
+OAuth credentials, so `GOOGLE_ADS_DEVELOPER_TOKEN` is not required.
+
+### Advertising stock gate
+
+Always refresh the seller inventory before creating or enabling ads:
+
+```powershell
+python .\scripts\tindie_ad_inventory.py --sync
+```
+
+The script logs in through Playwright, synchronizes local YAML stock, and lists
+only products whose live Tindie status is `For Sale` with stock greater than
+zero. Treat that output as the hard eligibility gate for Google Ads. Draft,
+retired, sold-out, and zero-stock listings must not be advertised.
+
+The active stock-capped Search campaign is protected by a fail-safe check:
+
+```powershell
+python .\scripts\enforce_google_ads_stock.py --dry-run
+python .\scripts\enforce_google_ads_stock.py
+```
+
+This check can only pause an ad group when its listing is no longer `For Sale`
+or its stock reaches zero. It deliberately never re-enables an ad group.
+Register the hourly Windows fail-safe with:
+
+```powershell
+.\scripts\register_google_ads_stock_task.ps1
+```
+
+Current campaign controls:
+
+- Campaign: `Tindie In-Stock Products - Search - 2026`
+- Geography: people physically in Australia; English language
+- Budget: A$2/day, ending automatically on 9 November 2026
+- Manual CPC limits: A$0.20 CS5490, A$0.25 Gamepad PMOD, A$0.30 V9381
+- Keywords: product-specific exact and phrase match only
+- Landing pages: stable Tindie product links with UTM tracking
+
+The Elecrow storefront has a separate stock-capped campaign for products that
+Elecrow reports as directly purchasable:
+
+```powershell
+python .\scripts\enforce_elecrow_google_ads_stock.py --dry-run
+python .\scripts\enforce_elecrow_google_ads_stock.py
+.\scripts\register_elecrow_google_ads_stock_task.ps1
+```
+
+Elecrow campaign controls:
+
+- Campaign: `Elecrow In-Stock Products - Search - 2026`
+- Geography: people physically in Australia; English language
+- Budget: A$1/day, ending automatically on 9 November 2026
+- Manual CPC limit: A$0.20 for MCP39F521 and V9360
+- Keywords: product-specific exact and phrase match only
+- Landing pages: Elecrow product pages with explicit UTM tracking
+- Stock gate: public product page must report `In stock` with an enabled
+  `Add to Cart` button
+
+The Elecrow stock gate can only pause an unavailable ad group. It deliberately
+never re-enables one.
+
 ## Tindie API notes
 
 The authenticated V2 API supports read-only catalog maintenance:
