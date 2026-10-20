@@ -250,10 +250,12 @@ python .\scripts\enforce_elecrow_google_ads_stock.py
 Elecrow campaign controls:
 
 - Campaign: `Elecrow In-Stock Products - Search - 2026`
-- Geography: people physically in Australia; English language
+- Geography: people physically in Australia, Canada, France, Germany, Japan,
+  New Zealand, the United Kingdom, or the United States; English language
 - Budget: A$1/day, ending automatically on 9 November 2026
-- Manual CPC limit: A$0.20 for MCP39F521 and V9360
-- Keywords: product-specific exact and phrase match only
+- Manual CPC limits: A$0.30 for MCP39F521 and A$0.20 for V9360
+- Keywords: product-specific exact/phrase terms plus high-intent I2C energy
+  monitoring and power-metering development phrases
 - Landing pages: Elecrow product pages with explicit UTM tracking
 - Stock gate: public product page must report `In stock` with an enabled
   `Add to Cart` button

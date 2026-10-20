@@ -1,0 +1,121 @@
+sku: "CTVT-PMOD-V1"
+name: "CTVT PMOD - 24-bit Voltage and Current ADC"
+description: |
+  Assembled open-hardware PMOD analog front end for phase-coherent voltage
+  and current sampling. The board uses a Texas Instruments ADS131M02 dual
+  24-bit delta-sigma ADC, with both channels sampled simultaneously for
+  energy-monitoring, power-measurement, FPGA, ASIC, and DSP experiments.
+
+  The current channel accepts an isolated current-output CT through a 3.5 mm
+  stereo jack. Two precision 6.49 ohm burden resistors form a 12.98 ohm
+  differential burden; a 100 A:50 mA CT produces approximately 0.649 Vrms at
+  rated current. The voltage channel accepts only a certified isolated
+  9-12 VAC AC/AC transformer through the barrel jack and uses a balanced
+  precision divider.
+
+  A right-angle male PMOD connector plugs into the host while a matching
+  vertical female connector passes all 12 pins through for stacking or
+  logic-analyzer access. The interface provides SPI, DRDY, RESET, and an
+  optional external ADC clock. Seven test points expose the ADC inputs,
+  conversion-ready signal, 3.3 V rail, and ground.
+
+  The board is designed to pair with the open-source CTVT Energy DSP Tiny
+  Tapeout project, but it can also be controlled by a compatible FPGA or
+  microcontroller. Voltage gain, current gain, phase, and channel offset
+  should be calibrated against a traceable low-voltage source for accurate
+  power and energy measurements.
+
+  What's included:
+  - 1x fully assembled CTVT PMOD
+  - ADS131M02 ADC, precision analog front end, protection, and connectors
+
+  Current transformer, isolated AC/AC transformer, PMOD host, and cables are
+  not included.
+
+  Safety: use only an isolated CT and a certified isolated AC/AC transformer.
+  Never connect mains directly to this board. The barrel jack is an isolated
+  low-voltage AC measurement input, not a DC power input. This is a
+  development board, not a certified energy meter.
+price_usd: 54.95
+stock: 0
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - power-measurement
+  - pmod
+  - ads131m02
+  - spi
+  - adc
+  - fpga
+  - tiny-tapeout
+  - open-hardware
+  - open-source
+tindie_product_id: null
+active: false
+seller_manufactured: true
+listing_state: "draft"
+ships_from: "Adelaide, South Australia, Australia"
+shipping:
+  domestic:
+    destination: "Australia"
+    carrier: "Australia Post"
+    service: "Tracked Parcel"
+    amount_aud: 20.00
+    tindie_amount_usd: 14.25
+    additional_item_usd: 0.00
+  international_standard:
+    destination: "Everywhere Else"
+    carrier: "Australia Post"
+    service: "International Standard Parcel up to 500g"
+    amount_aud: 42.40
+    tindie_amount_usd: 30.25
+    additional_500g_aud: 12.05
+    additional_item_usd: 8.60
+  international_express:
+    destination: "Everywhere Else"
+    carrier: "Australia Post"
+    service: "International Express Parcel up to 500g"
+    amount_aud: 59.40
+    tindie_amount_usd: 42.35
+    additional_500g_aud: 12.05
+    additional_item_usd: 8.60
+  exchange_rate_usd_per_aud: 0.7132
+  rates_effective: "2026-07-01"
+  source: "https://auspost.com.au/content/dam/auspost_corp/media/documents/post-guides/international-post-charges-easy-guide.pdf"
+design_url: "https://github.com/whatnick/ctvt-pmod"
+code_url: "https://github.com/whatnick/tt-ctvt-energy-dsp"
+docs_url: "https://github.com/whatnick/ctvt-pmod#readme"
+youtube_url: null
+
+specs:
+  voltage_range: "3.3 V PMOD supply; isolated 9-12 VAC measurement input"
+  current_range: "Sensor-dependent; designed around a 100 A:50 mA current-output CT"
+  accuracy: "Requires system gain, offset, and phase calibration"
+  interfaces:
+    - "PMOD"
+    - "SPI"
+    - "DRDY conversion-ready output"
+    - "RESET and optional host ADC clock"
+  connectivity:
+    - "3.5 mm stereo isolated CT input"
+    - "2.5 x 5.5 mm barrel jack for an isolated AC/AC transformer"
+    - "2x6 right-angle male PMOD connector"
+    - "2x6 vertical female PMOD pass-through connector"
+  dimensions_mm: "30 x 70"
+  weight_g: null
+  extra:
+    adc: "Texas Instruments ADS131M02IPWR"
+    conversion: "Two simultaneous 24-bit delta-sigma channels"
+    ct_burden: "12.98 ohm differential, 0.1% precision"
+    analog_filter: "Approximately 8 kHz differential pole"
+    test_points: "Seven"
+    assembly: "Fully assembled"
+    hardware_license: "CERN-OHL-S-2.0-or-later"
+    origin: "Adelaide, South Australia"
+
+options: []
+image_glob: null
+images:
+  - "https://raw.githubusercontent.com/whatnick/ctvt-pmod/main/docs/images/ctvt-pmod-isometric.png"
+  - "https://raw.githubusercontent.com/whatnick/ctvt-pmod/main/docs/images/ctvt-pmod-top.png"
+  - "https://raw.githubusercontent.com/whatnick/ctvt-pmod/main/docs/images/ctvt-pmod-bottom.png"
