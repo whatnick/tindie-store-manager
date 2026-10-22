@@ -253,9 +253,9 @@ Elecrow campaign controls:
 - Geography: people physically in Australia, Canada, France, Germany, Japan,
   New Zealand, the United Kingdom, or the United States; English language
 - Budget: A$1/day, ending automatically on 9 November 2026
-- Manual CPC limits: A$0.30 for MCP39F521 and A$0.20 for V9360
-- Keywords: product-specific exact/phrase terms plus high-intent I2C energy
-  monitoring and power-metering development phrases
+- Manual CPC limits: A$0.30 for ADE9000 and MCP39F521, and A$0.20 for V9360
+- Keywords: product-specific exact/phrase terms plus high-intent polyphase,
+  power-quality, I2C energy-monitoring, and power-metering development phrases
 - Landing pages: Elecrow product pages with explicit UTM tracking
 - Stock gate: public product page must report `In stock` with an enabled
   `Add to Cart` button

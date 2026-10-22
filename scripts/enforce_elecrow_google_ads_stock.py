@@ -14,6 +14,10 @@ from rich.console import Console
 
 ROOT = Path(__file__).resolve().parents[1]
 AD_GROUPS = {
+    "https://www.elecrow.com/ade9000-polyphase-energy-monitor-breakout.html": (
+        "ADE9000 Breakout",
+        "GOOGLE_ADS_ELECROW_ADE9000_AD_GROUP_ID",
+    ),
     "https://www.elecrow.com/mcp39f521-breakout.html": (
         "MCP39F521 Breakout",
         "GOOGLE_ADS_ELECROW_MCP39F521_AD_GROUP_ID",
