@@ -7,6 +7,7 @@ A Git-based tool for managing your [Tindie](https://www.tindie.com) store: produ
 ## Features
 
 - **Product-as-code** — one YAML file per product, version-controlled
+- **Lifecycle board** — kanban project for R&D, manufacturing, listing and decommissioning; see [ROADMAP.md](ROADMAP.md)
 - **Inventory CLI** — check stock, highlight low/out-of-stock items
 - **Tindie V2 API client** — read the complete store catalog, prices, and stock
 - **Playwright automation** — create draft listings, upload images, and add product options
@@ -48,8 +49,10 @@ tindie-store-manager/
 │   ├── list_products.py        # List products (local or live from API)
 │   ├── update_stock.py         # Set stock for a product
 │   ├── sync_tindie.py          # Pull Tindie order data → update local YAMLs
+│   ├── setup_project_board.py  # Create/seed the lifecycle kanban project
 │   └── tindie_create_product.py  # Browser-automate the Tindie create form
 ├── data/                # Generated exports / snapshots (gitignored)
+├── ROADMAP.md           # Multi-channel store and product lifecycle roadmap
 ├── .env.example         # Credential template
 └── pyproject.toml       # uv project config
 ```
