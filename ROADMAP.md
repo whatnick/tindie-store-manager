@@ -102,12 +102,19 @@ project.
 | Product line | Single select | Energy monitoring, LED cosplay props, Store tooling, Contract and custom |
 | Interest area | Single select | Electronics, Mechanical, Software and firmware, Business and operations |
 | Channel | Single select | Tindie, Elecrow, Both, None |
+| Decision | Single select | Invest, Sustain, Revise, Consolidate, Retirement candidate, Retired |
+| Approval state | Single select | Proposed, Approved |
+| Evidence confidence | Single select | High, Medium, Low |
 | Version | Text | e.g. `v0.4` |
+| Analysis URL | Text | Normalized business-case or portfolio review |
 | Supplier ref | Text | Quote/PN/SKU reference (no personal data) |
 | Quantity | Number | Units in the batch |
 | Unit cost USD | Number | Landed or quoted unit cost |
 | Stock | Number | Units at hand |
+| Lifetime units | Number | Aggregated sales units without customer data |
 | Target date | Date | Next milestone date |
+| Last sale | Date | Most recent aggregated channel sale |
+| Review date | Date | Next lifecycle evidence review |
 
 Work-in-progress limits (initial):
 
@@ -143,6 +150,8 @@ Status: in progress.
       Roadmap) in the GitHub UI. The API cannot create project views.
 - [ ] Add `lifecycle` metadata to product YAMLs (stage, version, channels,
       design repo, supersedes/superseded_by, EOL date).
+- [x] Add normalized product decisions, evidence confidence, sales actuals,
+      review dates and approval-gated retirement candidates.
 
 ### Phase 1: multi-channel catalogue and inventory
 

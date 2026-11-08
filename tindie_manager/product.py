@@ -47,6 +47,8 @@ class Product:
     ships_from: Optional[str] = None
     shipping: dict = field(default_factory=dict)
     options: list[dict] = field(default_factory=list)
+    lifecycle: dict = field(default_factory=dict)
+    business_case: dict = field(default_factory=dict)
 
     @classmethod
     def from_yaml(cls, path: Path) -> "Product":

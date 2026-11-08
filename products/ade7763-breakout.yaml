@@ -24,3 +24,18 @@ specs:
   extra: {}
 
 images: []
+
+design_url: "https://github.com/whatnick/ade7763_breakout_kicad"
+code_url: "https://github.com/whatnick/ADE7763_Arduino"
+lifecycle:
+  stage: "Listed"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "Tindie"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Invest"
+  approval_state: "Approved"
+  confidence: "High"
+  analysis_url: "https://github.com/whatnick/tindie-store-manager/blob/main/docs/portfolio-review-2026-11-08.md"
+  tindie_sales: {lifetime_units: 48, lifetime_orders: 35, last_sale: "2026-03-17"}

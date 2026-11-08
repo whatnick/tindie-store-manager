@@ -23,3 +23,18 @@ specs:
   extra: {}
 
 images: []
+
+design_url: "https://github.com/whatnick/ATM90E36_Breakout_KiCAD"
+code_url: "https://github.com/whatnick/ATM90E36_Arduino"
+lifecycle:
+  stage: "Sustaining"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "Tindie"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Revise"
+  approval_state: "Approved"
+  confidence: "High"
+  analysis_url: "https://github.com/whatnick/tindie-store-manager/blob/main/docs/portfolio-review-2026-11-08.md"
+  tindie_sales: {lifetime_units: 41, lifetime_orders: 36, last_sale: "2021-02-02"}

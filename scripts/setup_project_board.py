@@ -15,6 +15,7 @@ import argparse
 import json
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import yaml
@@ -42,10 +43,13 @@ SINGLE_SELECT = {
     "Product line": ["Energy monitoring", "LED cosplay props", "Store tooling", "Contract and custom"],
     "Interest area": ["Electronics", "Mechanical", "Software and firmware", "Business and operations"],
     "Channel": ["Tindie", "Elecrow", "Both", "None"],
+    "Decision": ["Invest", "Sustain", "Revise", "Consolidate", "Retirement candidate", "Retired"],
+    "Approval state": ["Proposed", "Approved"],
+    "Evidence confidence": ["High", "Medium", "Low"],
 }
-TEXT_FIELDS = ["Version", "Supplier ref", "SKU"]
-NUMBER_FIELDS = ["Quantity", "Unit cost USD", "Stock"]
-DATE_FIELDS = ["Target date"]
+TEXT_FIELDS = ["Version", "Supplier ref", "SKU", "Analysis URL"]
+NUMBER_FIELDS = ["Quantity", "Unit cost USD", "Stock", "Lifetime units"]
+DATE_FIELDS = ["Target date", "Last sale", "Review date"]
 
 LABELS = {
     "lifecycle": ("5319e7", "Product lifecycle tracking"),
@@ -56,6 +60,8 @@ LABELS = {
     "inventory": ("bfdadc", "Stock, reorder and channel inventory"),
     "sales": ("0e8a16", "Orders, sales ledger and reporting"),
     "contract": ("b60205", "Custom development and contract work"),
+    "retirement-candidate": ("d93f0b", "Proposed retirement awaiting owner approval"),
+    "needs-evidence": ("fbca04", "Lifecycle decision needs stronger cost, demand or replacement evidence"),
     "area:electronics": ("1d76db", "Electronics interest area"),
     "area:mechanical": ("c5def5", "Mechanical interest area"),
     "area:software": ("0052cc", "Software and firmware interest area"),
@@ -80,12 +86,93 @@ EPICS = [
      "Custom-version call to action, case studies, fixed-scope offerings and contract pipeline on the board."),
 ]
 
+ITEM_OVERRIDES = {
+    "Approve proposed product retirements: CS5464, Onion Feather, Wemos shield": {
+        "Status": "Inbox",
+        "Interest area": "Business and operations",
+        "Product line": "Energy monitoring",
+    },
+    "Complete ADS1115 CT/Grove decommission notice on Tindie": {
+        "Status": "Decommission",
+        "Interest area": "Business and operations",
+        "Product line": "Energy monitoring",
+    },
+    "Complete NodeMCU Energy Monitor retirement on Tindie (kit and SMD)": {
+        "Status": "Decommission",
+        "Interest area": "Business and operations",
+        "Product line": "Energy monitoring",
+    },
+    "Complete Xadow SD retirement notice on Tindie": {
+        "Status": "Decommission",
+        "Interest area": "Business and operations",
+        "Product line": "Contract and custom",
+    },
+    "Add op-amp preamp option for low-sensitivity piezos": {
+        "Status": "Backlog",
+        "Interest area": "Electronics",
+        "Product line": "LED cosplay props",
+    },
+    "Add LiPo battery and USB charging to the board": {
+        "Status": "Backlog",
+        "Interest area": "Electronics",
+        "Product line": "LED cosplay props",
+    },
+    "Peak detection / velocity-sensitive brightness": {
+        "Status": "Backlog",
+        "Interest area": "Software and firmware",
+        "Product line": "LED cosplay props",
+    },
+    "Multi-channel version for several drums/piezos": {
+        "Status": "Backlog",
+        "Interest area": "Electronics",
+        "Product line": "LED cosplay props",
+    },
+    "Port firmware to ESP32 / WLED-style effects": {
+        "Status": "Backlog",
+        "Interest area": "Software and firmware",
+        "Product line": "LED cosplay props",
+    },
+    "Document build, assembly and tuning guide": {
+        "Status": "Backlog",
+        "Interest area": "Business and operations",
+        "Product line": "LED cosplay props",
+    },
+    "Link videos and Tindie listing updates": {
+        "Status": "Backlog",
+        "Interest area": "Business and operations",
+        "Product line": "LED cosplay props",
+    },
+    "Migrate KiCad project to current KiCad version": {
+        "Status": "Revision",
+        "Interest area": "Electronics",
+        "Product line": "LED cosplay props",
+    },
+    "ESP32-S3 Nano fleet control via ESP-NOW": {
+        "Status": "R&D",
+        "Interest area": "Software and firmware",
+        "Product line": "LED cosplay props",
+    },
+}
+
 
 def gh(*args: str, check: bool = True) -> str:
-    result = subprocess.run(["gh", *args], capture_output=True, text=True, encoding="utf-8")
-    if check and result.returncode != 0:
-        raise RuntimeError(f"gh {' '.join(args)} failed: {result.stderr.strip()}")
-    return result.stdout
+    for attempt in range(3):
+        result = subprocess.run(["gh", *args], capture_output=True, text=True, encoding="utf-8")
+        if result.returncode == 0 or not check:
+            return result.stdout
+        transient = any(
+            message in result.stderr.lower()
+            for message in (
+                "connection was forcibly closed",
+                "connection reset",
+                "tls handshake timeout",
+                "timeout awaiting response headers",
+            )
+        )
+        if not transient or attempt == 2:
+            raise RuntimeError(f"gh {' '.join(args)} failed: {result.stderr.strip()}")
+        time.sleep(2**attempt)
+    raise AssertionError("unreachable")
 
 
 def graphql(query: str, **variables) -> dict:
@@ -167,6 +254,10 @@ def set_field(project_id: str, item_id: str, field: dict, value) -> None:
     gh(*args)
 
 
+def item_value(item: dict, field_name: str):
+    return item.get(field_name[:1].lower() + field_name[1:])
+
+
 def upsert(owner: str, number: int, project_id: str, existing: dict, field_map: dict,
            title: str, body: str, values: dict, issue_url: str | None = None) -> None:
     item = existing.get(title)
@@ -179,7 +270,8 @@ def upsert(owner: str, number: int, project_id: str, existing: dict, field_map: 
         existing[title] = item
         print(f"added: {title}")
     for name, value in values.items():
-        set_field(project_id, item["id"], field_map[name], value)
+        if item_value(item, name) != value:
+            set_field(project_id, item["id"], field_map[name], value)
 
 
 def product_values(path: Path) -> tuple[str, str, dict]:
@@ -197,21 +289,36 @@ def product_values(path: Path) -> tuple[str, str, dict]:
     else:
         status = "Backlog"
     category = (p.get("category") or "").lower()
-    line = "LED cosplay props" if any(k in p["sku"].lower() for k in ("lantern", "drum")) else (
+    inferred_line = "LED cosplay props" if any(k in p["sku"].lower() for k in ("lantern", "drum")) else (
         "Energy monitoring" if "energy" in category else "Contract and custom")
     lifecycle = p.get("lifecycle") or {}
+    business_case = p.get("business_case") or {}
+    sales = business_case.get("tindie_sales") or {}
+    line = lifecycle.get("product_line") or inferred_line
+    decision = business_case.get("decision")
+    confidence = business_case.get("confidence")
+    analysis_url = business_case.get("analysis_url")
     title = f"{p['name']} ({p['sku']})"
     body = (f"Product YAML: `products/{path.name}`\n\n"
             f"Design: {p.get('design_url') or 'n/a'}\nCode: {p.get('code_url') or 'n/a'}\n\n"
+            f"Decision: {decision or 'not assessed'}\n"
+            f"Analysis: {analysis_url or 'not linked'}\n\n"
             "Out-of-stock items in Sustaining need a reorder, revise or decommission decision.")
     values = {
         "Status": lifecycle.get("stage") or status,
         "Product line": line,
-        "Interest area": "Electronics",
-        "Channel": "Tindie" if listed else "None",
+        "Interest area": lifecycle.get("interest_area") or "Electronics",
+        "Channel": lifecycle.get("channel") or ("Tindie" if listed else "None"),
+        "Decision": decision,
+        "Approval state": business_case.get("approval_state"),
+        "Evidence confidence": confidence,
         "SKU": p["sku"],
         "Stock": stock,
         "Version": lifecycle.get("version"),
+        "Lifetime units": sales.get("lifetime_units"),
+        "Last sale": sales.get("last_sale"),
+        "Review date": lifecycle.get("review_date"),
+        "Analysis URL": analysis_url,
     }
     return title, body, values
 
@@ -249,6 +356,14 @@ def main() -> int:
         for path in sorted((ROOT / "products").glob("*.yaml")):
             title, body, values = product_values(path)
             upsert(args.owner, number, project_id, existing, field_map, title, body, values)
+
+    for title, values in ITEM_OVERRIDES.items():
+        item = existing.get(title)
+        if item is None:
+            continue
+        for name, value in values.items():
+            if item_value(item, name) != value:
+                set_field(project_id, item["id"], field_map[name], value)
 
     if args.supplier_orders:
         for order in json.loads(args.supplier_orders.read_text(encoding="utf-8")):

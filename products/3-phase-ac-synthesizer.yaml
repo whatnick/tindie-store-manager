@@ -23,3 +23,17 @@ specs:
   extra: {}
 
 images: []
+
+design_url: "https://github.com/whatnick/Tph_Synth_Featherwing"
+lifecycle:
+  stage: "Sustaining"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "Tindie"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Revise"
+  approval_state: "Approved"
+  confidence: "High"
+  analysis_url: "https://github.com/whatnick/tindie-store-manager/blob/main/docs/portfolio-review-2026-11-08.md"
+  tindie_sales: {lifetime_units: 3, lifetime_orders: 3, last_sale: "2022-01-30"}

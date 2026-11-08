@@ -1,0 +1,31 @@
+evidence_date: "2026-11-08"
+source: "Authenticated Tindie seller order history, aggregated without customer data"
+scope: "All 32 order-history pages available to the seller account"
+products:
+  3-PHASE-AC-SYNTHESIZER: {lifetime_units: 3, lifetime_orders: 3, last_sale: "2022-01-30"}
+  ADE7763-BREAKOUT: {lifetime_units: 48, lifetime_orders: 35, last_sale: "2026-03-17"}
+  ADE7816-BREAKOUT: {lifetime_units: 1, lifetime_orders: 1, last_sale: "2021-03-21"}
+  ADE9000-BREAKOUT: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}
+  ADS1115-MODULE-WITH-CTGROVE-CONNECTORS: {lifetime_units: 17, lifetime_orders: 12, last_sale: "2017-04-16"}
+  ATM90E26-BREAKOUT: {lifetime_units: 152, lifetime_orders: 88, last_sale: "2021-10-19"}
+  ATM90E26-FEATHERWING: {lifetime_units: 59, lifetime_orders: 45, last_sale: "2025-10-31"}
+  ATM90E36-DEVKIT: {lifetime_units: 41, lifetime_orders: 36, last_sale: "2021-02-02"}
+  CS5464-BREAKOUT: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}
+  CS5490-BREAKOUT: {lifetime_units: 13, lifetime_orders: 10, last_sale: "2021-08-02"}
+  CTVT-PMOD-V1: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}
+  DRUMLIGHTS: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}
+  ENERGY-MONITOR-FEATHERWING: {lifetime_units: 20, lifetime_orders: 14, last_sale: "2017-02-03"}
+  GAMEPAD-PMOD: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}
+  ICE40-FEATHER: {lifetime_units: 2, lifetime_orders: 2, last_sale: "2021-04-02"}
+  LANTERN-RINGS: {lifetime_units: 2, lifetime_orders: 2, last_sale: "2026-09-26"}
+  MCP39F511-BREAKOUT: {lifetime_units: 11, lifetime_orders: 6, last_sale: "2025-10-29"}
+  MCP39F521-BREAKOUT: {lifetime_units: 4, lifetime_orders: 3, last_sale: "2022-10-05"}
+  NODEMCU-ENERGY-MONITOR-PCBKIT: {lifetime_units: 59, lifetime_orders: 44, last_sale: "2018-02-27"}
+  NODEMCU-ENERGY-MONITOR-SMD: {lifetime_units: 47, lifetime_orders: 38, last_sale: "2017-10-24"}
+  ONION-FEATHER: {lifetime_units: 1, lifetime_orders: 1, last_sale: "2020-12-07"}
+  THREE-PHASE-ENERGY-MONITOR-ATM90E36-FEATHERWING: {lifetime_units: 16, lifetime_orders: 9, last_sale: "2019-12-01"}
+  V9203-FEATHERWING: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}
+  V9360-BREAKOUT: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}
+  V9381-BREAKOUT: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}
+  WEMOS-D1-MINI-POWER-SHIELD: {lifetime_units: 4, lifetime_orders: 4, last_sale: "2019-02-06"}
+  XADOW-SD: {lifetime_units: 5, lifetime_orders: 2, last_sale: "2017-01-24"}

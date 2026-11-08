@@ -22,3 +22,17 @@ specs:
   extra: {}
 
 images: []
+
+design_url: "https://github.com/whatnick/DrumLights"
+lifecycle:
+  stage: "Revision"
+  product_line: "LED cosplay props"
+  interest_area: "Electronics"
+  channel: "Tindie"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Revise"
+  approval_state: "Approved"
+  confidence: "High"
+  analysis_url: "https://github.com/whatnick/DrumLights/blob/master/docs/SOURCING_AND_BUSINESS_CASE.md"
+  tindie_sales: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}

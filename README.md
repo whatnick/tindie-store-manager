@@ -8,6 +8,9 @@ A Git-based tool for managing your [Tindie](https://www.tindie.com) store: produ
 
 - **Product-as-code** — one YAML file per product, version-controlled
 - **Lifecycle board** — kanban project for R&D, manufacturing, listing and decommissioning; see [ROADMAP.md](ROADMAP.md)
+- **Portfolio evidence** — normalized business cases, sales actuals and
+  approval-gated retirement candidates; see
+  [the 2026-11-08 review](docs/portfolio-review-2026-11-08.md)
 - **Inventory CLI** — check stock, highlight low/out-of-stock items
 - **Tindie V2 API client** — read the complete store catalog, prices, and stock
 - **Playwright automation** — create draft listings, upload images, and add product options

@@ -107,3 +107,16 @@ image_glob: null
 images:
   - "https://raw.githubusercontent.com/whatnick/ADE9000_Breakout/main/docs/images/ADE9000_Breakout_isometric_top.png"
   - "https://raw.githubusercontent.com/whatnick/ADE9000_Breakout/main/docs/images/ADE9000_Breakout_isometric_bottom.png"
+
+lifecycle:
+  stage: "Listed"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "Both"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Invest"
+  approval_state: "Approved"
+  confidence: "High"
+  analysis_url: "https://github.com/whatnick/tindie-store-manager/blob/main/docs/portfolio-review-2026-11-08.md"
+  tindie_sales: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}

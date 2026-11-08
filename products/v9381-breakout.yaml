@@ -58,3 +58,16 @@ specs:
     form_factor: "Breadboard compatible"
 
 images: []
+
+lifecycle:
+  stage: "Listed"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "Tindie"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Invest"
+  approval_state: "Approved"
+  confidence: "Medium"
+  analysis_url: "https://github.com/whatnick/tindie-store-manager/blob/main/docs/portfolio-review-2026-11-08.md"
+  tindie_sales: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}

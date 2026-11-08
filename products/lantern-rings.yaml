@@ -22,3 +22,17 @@ specs:
   extra: {}
 
 images: []
+
+design_url: "https://github.com/whatnick/lantern_ring"
+lifecycle:
+  stage: "Sustaining"
+  product_line: "LED cosplay props"
+  interest_area: "Mechanical"
+  channel: "Tindie"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Revise"
+  approval_state: "Approved"
+  confidence: "High"
+  analysis_url: "https://github.com/whatnick/lantern_ring/blob/main/docs/design/product-market-analysis.md"
+  tindie_sales: {lifetime_units: 2, lifetime_orders: 2, last_sale: "2026-09-26"}

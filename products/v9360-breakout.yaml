@@ -47,3 +47,18 @@ specs:
 
 images:
   - "https://raw.githubusercontent.com/whatnick/V93XX_Breakout/main/docs/V9360_PCB.jpg"
+
+design_url: "https://github.com/whatnick/V93XX_Breakout"
+code_url: "https://github.com/whatnick/V93XX_Arduino"
+lifecycle:
+  stage: "Listed"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "Both"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Invest"
+  approval_state: "Approved"
+  confidence: "Medium"
+  analysis_url: "https://github.com/whatnick/tindie-store-manager/blob/main/docs/portfolio-review-2026-11-08.md"
+  tindie_sales: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}

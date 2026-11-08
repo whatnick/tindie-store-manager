@@ -24,3 +24,18 @@ specs:
   extra: {}
 
 images: []
+
+design_url: "https://github.com/whatnick/CS5490_Breakout"
+code_url: "https://github.com/whatnick/cs5490_micropython"
+lifecycle:
+  stage: "Listed"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "Tindie"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Sustain"
+  approval_state: "Approved"
+  confidence: "Medium"
+  analysis_url: "https://github.com/whatnick/tindie-store-manager/blob/main/docs/portfolio-review-2026-11-08.md"
+  tindie_sales: {lifetime_units: 13, lifetime_orders: 10, last_sale: "2021-08-02"}

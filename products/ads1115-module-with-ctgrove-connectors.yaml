@@ -37,3 +37,16 @@ specs:
   extra: {}
 
 images: []
+
+lifecycle:
+  stage: "Decommission"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "Tindie"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Retired"
+  approval_state: "Approved"
+  confidence: "High"
+  analysis_url: "https://github.com/whatnick/ADS1115_Grove_Emon#product-decommission-notice---2026-11-08"
+  tindie_sales: {lifetime_units: 17, lifetime_orders: 12, last_sale: "2017-04-16"}

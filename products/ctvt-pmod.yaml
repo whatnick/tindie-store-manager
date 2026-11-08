@@ -119,3 +119,17 @@ images:
   - "https://raw.githubusercontent.com/whatnick/ctvt-pmod/main/docs/images/ctvt-pmod-isometric.png"
   - "https://raw.githubusercontent.com/whatnick/ctvt-pmod/main/docs/images/ctvt-pmod-top.png"
   - "https://raw.githubusercontent.com/whatnick/ctvt-pmod/main/docs/images/ctvt-pmod-bottom.png"
+
+lifecycle:
+  stage: "Prototype"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "None"
+  version: "v1"
+  review_date: "2027-02-08"
+business_case:
+  decision: "Invest"
+  approval_state: "Approved"
+  confidence: "High"
+  analysis_url: "https://github.com/whatnick/ctvt-pmod#readme"
+  tindie_sales: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}
