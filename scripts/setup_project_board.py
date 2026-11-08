@@ -186,7 +186,9 @@ def product_values(path: Path) -> tuple[str, str, dict]:
     p = yaml.safe_load(path.read_text(encoding="utf-8"))
     listed = p.get("tindie_product_id") is not None
     stock = int(p.get("stock") or 0)
-    if not p.get("active", True):
+    if p.get("listing_state") == "retired":
+        status = "Decommission"
+    elif not p.get("active", True):
         status = "Prototype"
     elif listed and stock > 0:
         status = "Listed"

@@ -1,6 +1,18 @@
 sku: "ADS1115-MODULE-WITH-CTGROVE-CONNECTORS"
 name: "ADS1115 Module with CT/Grove Connectors"
 description: |
+  DECOMMISSION NOTICE (2026-11-08): This CT/Grove ADS1115 module is retired
+  from our product range; no further manufacturing runs are planned.
+  The ADS1115 uses I2C and a multiplexed ADC with a maximum conversion rate
+  of 860 samples per second shared across selected channels. This limits
+  phase-coherent, multi-channel waveform acquisition for energy monitoring.
+  It remains useful for slow sensor measurements; this is a product
+  retirement, not a claim that Texas Instruments has discontinued the IC.
+  Existing design files remain available for reference and reuse.
+  For new waveform-acquisition designs, consider the SPI-based ADS131M02
+  CTVT PMOD or a dedicated metering-IC board. These are not drop-in
+  replacements: host interface, connectors and firmware must be reviewed.
+
   An i2c extension board designed to be used with NodeMCU Emon or other Grove based systems for connecting CT sensors from additional channels
 price_usd: 15.00
 stock: 0
@@ -10,7 +22,9 @@ tags:
   - adc
   - open-source
 tindie_product_id: "6476"
-active: true
+active: false
+listing_state: "retired"
+design_url: "https://github.com/whatnick/ADS1115_Grove_Emon"
 
 specs:
   voltage_range: null
