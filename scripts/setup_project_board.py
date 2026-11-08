@@ -179,6 +179,17 @@ ITEM_OVERRIDES = {
         "Analysis URL": DIN_NILM_ANALYSIS_URL,
         "Review date": "2027-02-08",
     },
+    "DIN NILM: build the university research and publication program": {
+        "Status": "Backlog",
+        "Interest area": "Business and operations",
+        "Product line": "Energy monitoring",
+        "Channel": "None",
+        "Decision": "Invest",
+        "Approval state": "Approved",
+        "Evidence confidence": "Medium",
+        "Analysis URL": DIN_NILM_ANALYSIS_URL,
+        "Review date": "2027-02-08",
+    },
     "Approve proposed product retirements: CS5464, Onion Feather, Wemos shield": {
         "Status": "Inbox",
         "Interest area": "Business and operations",

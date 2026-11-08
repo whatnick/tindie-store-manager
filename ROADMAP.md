@@ -262,7 +262,9 @@ clones to point back to the original.
   [whatnick/DIN_Rail_EnergyMonitor#1](https://github.com/whatnick/DIN_Rail_EnergyMonitor/issues/1).
   Standardize safe vertical risers for metering ICs, simultaneous ADCs, FPGA
   processing, and the open CTVT metrology ASIC; keep raw waveforms, datasets,
-  local processing, and interfaces reproducible.
+  local processing, and interfaces reproducible. Target universities, teaching
+  labs, and small research groups with citable releases and publication-ready
+  evidence rather than competing as a lowest-cost consumer monitor.
 - **LED cosplay props:** productise lantern rings and drum lights into a
   family: controller, rings, diffusers and printable housings. Add
   battery-safe power modules and an open firmware with presets. Pair
