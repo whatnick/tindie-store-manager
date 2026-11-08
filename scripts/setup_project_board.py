@@ -22,6 +22,10 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 PROJECT_TITLE = "Store and Product Lifecycle"
+DIN_NILM_ANALYSIS_URL = (
+    "https://github.com/whatnick/DIN_Rail_EnergyMonitor/blob/master/"
+    "docs/open-nilm-platform.md"
+)
 
 STATUS = [
     ("Inbox", "GRAY", "Captured ideas awaiting triage"),
@@ -95,7 +99,7 @@ ITEM_OVERRIDES = {
         "Decision": "Invest",
         "Approval state": "Approved",
         "Evidence confidence": "Medium",
-        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Analysis URL": DIN_NILM_ANALYSIS_URL,
         "Review date": "2027-02-08",
     },
     "DIN NILM: recover the Crowd Supply hardware and define v2 safety boundaries": {
@@ -106,7 +110,7 @@ ITEM_OVERRIDES = {
         "Decision": "Revise",
         "Approval state": "Approved",
         "Evidence confidence": "High",
-        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Analysis URL": DIN_NILM_ANALYSIS_URL,
         "Review date": "2027-02-08",
     },
     "DIN NILM: specify the modular vertical-riser interface": {
@@ -117,7 +121,7 @@ ITEM_OVERRIDES = {
         "Decision": "Invest",
         "Approval state": "Approved",
         "Evidence confidence": "Medium",
-        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Analysis URL": DIN_NILM_ANALYSIS_URL,
         "Review date": "2027-02-08",
     },
     "DIN NILM: design a simultaneous-sampling ADC metrology riser": {
@@ -128,7 +132,7 @@ ITEM_OVERRIDES = {
         "Decision": "Invest",
         "Approval state": "Approved",
         "Evidence confidence": "High",
-        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Analysis URL": DIN_NILM_ANALYSIS_URL,
         "Review date": "2027-02-08",
     },
     "DIN NILM: build an FPGA waveform and event-processing riser": {
@@ -139,7 +143,7 @@ ITEM_OVERRIDES = {
         "Decision": "Invest",
         "Approval state": "Approved",
         "Evidence confidence": "High",
-        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Analysis URL": DIN_NILM_ANALYSIS_URL,
         "Review date": "2027-02-08",
     },
     "DIN NILM: integrate the open metrology DSP ASIC as a riser": {
@@ -150,7 +154,7 @@ ITEM_OVERRIDES = {
         "Decision": "Invest",
         "Approval state": "Approved",
         "Evidence confidence": "Medium",
-        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Analysis URL": DIN_NILM_ANALYSIS_URL,
         "Review date": "2027-02-08",
     },
     "DIN NILM: implement the local gateway, open data API and dataset pipeline": {
@@ -161,7 +165,7 @@ ITEM_OVERRIDES = {
         "Decision": "Invest",
         "Approval state": "Approved",
         "Evidence confidence": "Medium",
-        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Analysis URL": DIN_NILM_ANALYSIS_URL,
         "Review date": "2027-02-08",
     },
     "DIN NILM: run a research pilot and appliance-disaggregation benchmark": {
@@ -172,7 +176,7 @@ ITEM_OVERRIDES = {
         "Decision": "Invest",
         "Approval state": "Approved",
         "Evidence confidence": "Medium",
-        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Analysis URL": DIN_NILM_ANALYSIS_URL,
         "Review date": "2027-02-08",
     },
     "Approve proposed product retirements: CS5464, Onion Feather, Wemos shield": {
@@ -445,11 +449,13 @@ def main() -> int:
             title, body, values = product_values(path)
             upsert(args.owner, number, project_id, existing, field_map, title, body, values)
 
-    lifecycle_issues = json.loads(
-        gh("issue", "list", "-R", full_repo, "--state", "all", "--label", "lifecycle",
-           "--json", "title,url", "--limit", "300")
-    )
-    lifecycle_urls = {issue["title"]: issue["url"] for issue in lifecycle_issues}
+    lifecycle_urls = {}
+    for issue_repo in (full_repo, "whatnick/DrumLights", "whatnick/DIN_Rail_EnergyMonitor"):
+        lifecycle_issues = json.loads(
+            gh("issue", "list", "-R", issue_repo, "--state", "all", "--label", "lifecycle",
+               "--json", "title,url", "--limit", "300")
+        )
+        lifecycle_urls.update({issue["title"]: issue["url"] for issue in lifecycle_issues})
     for title, values in ITEM_OVERRIDES.items():
         item = existing.get(title)
         if item is None and title in lifecycle_urls:

@@ -16,8 +16,8 @@ or undocumented hardware may still require manual classification.
 - `whatnick/tindie-store-manager` - portfolio lifecycle, sales evidence,
   retirement decisions and channel/manufacturing roadmap.
 - The legacy DIN rail repositories are assessed together in
-  [`din-rail-open-nilm-platform.md`](din-rail-open-nilm-platform.md) as a
-  modular open NILM development platform.
+  [`DIN_Rail_EnergyMonitor/docs/open-nilm-platform.md`](https://github.com/whatnick/DIN_Rail_EnergyMonitor/blob/master/docs/open-nilm-platform.md)
+  as a modular open NILM development platform.
 
 ### Manufacturing or sourcing evidence, but no complete business case
 

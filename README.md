@@ -13,7 +13,7 @@ A Git-based tool for managing your [Tindie](https://www.tindie.com) store: produ
   [the 2026-11-08 review](docs/portfolio-review-2026-11-08.md)
 - **Open NILM platform** — recovery and staged modernization of the delivered
   Crowd Supply DIN rail monitor; see
-  [the platform assessment](docs/din-rail-open-nilm-platform.md)
+  [the platform assessment](https://github.com/whatnick/DIN_Rail_EnergyMonitor/blob/master/docs/open-nilm-platform.md)
 - **Inventory CLI** — check stock, highlight low/out-of-stock items
 - **Tindie V2 API client** — read the complete store catalog, prices, and stock
 - **Playwright automation** — create draft listings, upload images, and add product options

@@ -258,7 +258,8 @@ clones to point back to the original.
   and comparison tables across metering ICs. Retire superseded parts (for
   example legacy SMD/kit boards with obsolete MCUs).
 - **Open NILM development platform:** recover the delivered Crowd Supply DIN
-  rail stack behind [epic #16](https://github.com/whatnick/tindie-store-manager/issues/16).
+  rail stack behind
+  [whatnick/DIN_Rail_EnergyMonitor#1](https://github.com/whatnick/DIN_Rail_EnergyMonitor/issues/1).
   Standardize safe vertical risers for metering ICs, simultaneous ADCs, FPGA
   processing, and the open CTVT metrology ASIC; keep raw waveforms, datasets,
   local processing, and interfaces reproducible.
