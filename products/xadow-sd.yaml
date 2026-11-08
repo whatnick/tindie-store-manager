@@ -1,6 +1,19 @@
 sku: "XADOW-SD"
 name: "Xadow SD"
 description: |
+  DECOMMISSION NOTICE (2026-11-08): Xadow SD is retired from our product
+  range. No further manufacturing or restocking is planned.
+  Reason: the original Xadow ecosystem is legacy/end-of-life. Seeed Studio
+  documented migration from the original 12-pin bus to an 11-pin bus in
+  its Xadow product-lines discussion, now categorised under End-Of-Life
+  Products & Services:
+  https://forum.seeedstudio.com/t/xadow-product-lines/18930
+  We are retiring this legacy accessory rather than planning new products
+  around that platform. This notice does not assert that all Xadow v2
+  products are discontinued. Existing working modules need not be replaced.
+  For new designs, choose a supported SD-card module compatible with the
+  host interface and voltage levels; do not assume a drop-in replacement.
+
   Xadow SD module
 price_usd: 5.00
 stock: 0
@@ -9,7 +22,9 @@ tags:
   - energy-monitor
   - open-source
 tindie_product_id: "7348"
-active: true
+active: false
+listing_state: "retired"
+docs_url: "https://github.com/whatnick/tindie-store-manager/blob/main/docs/retirements/xadow-sd.md"
 
 specs:
   voltage_range: null
