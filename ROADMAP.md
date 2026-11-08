@@ -14,7 +14,9 @@ Build a recognisable, trusted catalogue of open-hardware breakout boards and
 kits in two focus areas:
 
 1. **Energy monitoring:** metering-IC breakouts, FeatherWings, PMODs and
-   reference designs (ADE, ATM90, V93xx, MCP39xx, CS54xx, STPM and successors).
+   reference designs (ADE, ATM90, V93xx, MCP39xx, CS54xx, STPM and successors),
+   plus a modular DIN rail platform for open waveform capture, FPGA/ASIC
+   metrology, and reproducible NILM research.
 2. **LED lighting for cosplay props:** lantern rings, drum lights, addressable
    LED controllers, wearable power and mechanical prop housings.
 
@@ -255,6 +257,11 @@ clones to point back to the original.
   FeatherWing/PMOD variants. Publish calibration guides, ESPHome components
   and comparison tables across metering ICs. Retire superseded parts (for
   example legacy SMD/kit boards with obsolete MCUs).
+- **Open NILM development platform:** recover the delivered Crowd Supply DIN
+  rail stack behind [epic #16](https://github.com/whatnick/tindie-store-manager/issues/16).
+  Standardize safe vertical risers for metering ICs, simultaneous ADCs, FPGA
+  processing, and the open CTVT metrology ASIC; keep raw waveforms, datasets,
+  local processing, and interfaces reproducible.
 - **LED cosplay props:** productise lantern rings and drum lights into a
   family: controller, rings, diffusers and printable housings. Add
   battery-safe power modules and an open firmware with presets. Pair

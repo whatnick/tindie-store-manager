@@ -87,6 +87,94 @@ EPICS = [
 ]
 
 ITEM_OVERRIDES = {
+    "Revive the DIN rail energy monitor as an open NILM development platform": {
+        "Status": "Backlog",
+        "Interest area": "Business and operations",
+        "Product line": "Energy monitoring",
+        "Channel": "None",
+        "Decision": "Invest",
+        "Approval state": "Approved",
+        "Evidence confidence": "Medium",
+        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Review date": "2027-02-08",
+    },
+    "DIN NILM: recover the Crowd Supply hardware and define v2 safety boundaries": {
+        "Status": "Backlog",
+        "Interest area": "Electronics",
+        "Product line": "Energy monitoring",
+        "Channel": "None",
+        "Decision": "Revise",
+        "Approval state": "Approved",
+        "Evidence confidence": "High",
+        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Review date": "2027-02-08",
+    },
+    "DIN NILM: specify the modular vertical-riser interface": {
+        "Status": "Backlog",
+        "Interest area": "Electronics",
+        "Product line": "Energy monitoring",
+        "Channel": "None",
+        "Decision": "Invest",
+        "Approval state": "Approved",
+        "Evidence confidence": "Medium",
+        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Review date": "2027-02-08",
+    },
+    "DIN NILM: design a simultaneous-sampling ADC metrology riser": {
+        "Status": "Backlog",
+        "Interest area": "Electronics",
+        "Product line": "Energy monitoring",
+        "Channel": "None",
+        "Decision": "Invest",
+        "Approval state": "Approved",
+        "Evidence confidence": "High",
+        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Review date": "2027-02-08",
+    },
+    "DIN NILM: build an FPGA waveform and event-processing riser": {
+        "Status": "Backlog",
+        "Interest area": "Electronics",
+        "Product line": "Energy monitoring",
+        "Channel": "None",
+        "Decision": "Invest",
+        "Approval state": "Approved",
+        "Evidence confidence": "High",
+        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Review date": "2027-02-08",
+    },
+    "DIN NILM: integrate the open metrology DSP ASIC as a riser": {
+        "Status": "Backlog",
+        "Interest area": "Software and firmware",
+        "Product line": "Energy monitoring",
+        "Channel": "None",
+        "Decision": "Invest",
+        "Approval state": "Approved",
+        "Evidence confidence": "Medium",
+        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Review date": "2027-02-08",
+    },
+    "DIN NILM: implement the local gateway, open data API and dataset pipeline": {
+        "Status": "Backlog",
+        "Interest area": "Software and firmware",
+        "Product line": "Energy monitoring",
+        "Channel": "None",
+        "Decision": "Invest",
+        "Approval state": "Approved",
+        "Evidence confidence": "Medium",
+        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Review date": "2027-02-08",
+    },
+    "DIN NILM: run a research pilot and appliance-disaggregation benchmark": {
+        "Status": "Backlog",
+        "Interest area": "Business and operations",
+        "Product line": "Energy monitoring",
+        "Channel": "None",
+        "Decision": "Invest",
+        "Approval state": "Approved",
+        "Evidence confidence": "Medium",
+        "Analysis URL": "https://github.com/whatnick/tindie-store-manager/blob/main/docs/din-rail-open-nilm-platform.md",
+        "Review date": "2027-02-08",
+    },
     "Approve proposed product retirements: CS5464, Onion Feather, Wemos shield": {
         "Status": "Inbox",
         "Interest area": "Business and operations",
@@ -357,8 +445,26 @@ def main() -> int:
             title, body, values = product_values(path)
             upsert(args.owner, number, project_id, existing, field_map, title, body, values)
 
+    lifecycle_issues = json.loads(
+        gh("issue", "list", "-R", full_repo, "--state", "all", "--label", "lifecycle",
+           "--json", "title,url", "--limit", "300")
+    )
+    lifecycle_urls = {issue["title"]: issue["url"] for issue in lifecycle_issues}
     for title, values in ITEM_OVERRIDES.items():
         item = existing.get(title)
+        if item is None and title in lifecycle_urls:
+            upsert(
+                args.owner,
+                number,
+                project_id,
+                existing,
+                field_map,
+                title,
+                "",
+                values,
+                issue_url=lifecycle_urls[title],
+            )
+            continue
         if item is None:
             continue
         for name, value in values.items():
