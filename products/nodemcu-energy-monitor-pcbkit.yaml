@@ -1,6 +1,16 @@
 sku: "NODEMCU-ENERGY-MONITOR-PCBKIT"
 name: "NodeMCU Energy Monitor (PCB/Kit)"
 description: |
+  DECOMMISSION NOTICE (2026-11-08): The NodeMCU Energy Monitor PCB/kit
+  is retired from our product range. No further manufacturing runs are
+  planned. This includes the assembled SMD variant.
+  Existing design files remain available for reference and reuse.
+  Retirement does not require replacing a working unit and is not a
+  claim that the NodeMCU platform or its components are discontinued.
+  For new projects, choose a currently supported energy-monitor board
+  appropriate to your host, sensors and firmware; alternatives are not
+  assumed to be drop-in replacements.
+
   NodeMCU Energy Monitor shield
 price_usd: 8.00
 stock: 0
@@ -11,7 +21,9 @@ tags:
   - iot
   - open-source
 tindie_product_id: "5873"
-active: true
+active: false
+listing_state: "retired"
+design_url: "https://github.com/whatnick/NodeMCU_Emon"
 
 specs:
   voltage_range: null

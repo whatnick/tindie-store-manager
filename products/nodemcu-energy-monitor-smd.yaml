@@ -1,6 +1,16 @@
 sku: "NODEMCU-ENERGY-MONITOR-SMD"
 name: "NodeMCU Energy Monitor SMD"
 description: |
+  DECOMMISSION NOTICE (2026-11-08): The assembled NodeMCU Energy Monitor
+  SMD is retired from our product range. No further manufacturing runs
+  are planned. This includes the PCB/kit variant.
+  Existing design files remain available for reference and reuse.
+  Retirement does not require replacing a working unit and is not a
+  claim that the NodeMCU platform or its components are discontinued.
+  For new projects, choose a currently supported energy-monitor board
+  appropriate to your host, sensors and firmware; alternatives are not
+  assumed to be drop-in replacements.
+
   NodeMCU based Wifi Energy Monitor (SMD version) fully assembled with option NodeMCU and ADS1115
 price_usd: 20.00
 stock: 0
@@ -11,7 +21,9 @@ tags:
   - iot
   - open-source
 tindie_product_id: "6199"
-active: true
+active: false
+listing_state: "retired"
+design_url: "https://github.com/whatnick/NodeMCU_Emon"
 
 specs:
   voltage_range: null
