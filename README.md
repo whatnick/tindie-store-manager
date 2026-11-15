@@ -14,6 +14,9 @@ A Git-based tool for managing your [Tindie](https://www.tindie.com) store: produ
 - **Open NILM platform** — recovery and staged modernization of the delivered
   Crowd Supply DIN rail monitor; see
   [the platform assessment](https://github.com/whatnick/DIN_Rail_EnergyMonitor/blob/master/docs/open-nilm-platform.md)
+- **Elecrow production pipeline** — privacy-safe quote, production, QA, stock,
+  and sales handoff; see
+  [the production workflow](docs/elecrow-production-pipeline.md)
 - **Inventory CLI** — check stock, highlight low/out-of-stock items
 - **Tindie V2 API client** — read the complete store catalog, prices, and stock
 - **Playwright automation** — create draft listings, upload images, and add product options
