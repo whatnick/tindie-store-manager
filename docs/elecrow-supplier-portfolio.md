@@ -1,38 +1,10 @@
-# Elecrow production pipeline
+# Elecrow supplier portfolio review
 
-This repository tracks the commercial lifecycle; detailed PCB design and
-supplier interaction techniques live in the canonical
+This file contains only Whatnick-specific supplier state, economics, release
+holds, and prioritization. Reusable submission, audit, privacy, authority,
+evidence-schema, and lifecycle procedures live only in the canonical
 [`whatnick-energy-monitor-elecrow-ordering`](https://github.com/whatnick/whatnick-energy-monitor-skills/tree/main/whatnick-energy-monitor-elecrow-ordering)
 skill.
-
-## Privacy boundary
-
-Public repository and GitHub Project records may contain:
-
-- supplier reference, project name, quantity, status, and check date;
-- non-sensitive quote totals and effective unit cost;
-- hashes and repository links for Gerber, BOM, CPL, instructions, and quote
-  workbooks;
-- technical release holds, substitutions, first-article requirements, and QA
-  results.
-
-Do not commit account profiles/cookies, credentials, addresses, phone numbers,
-email addresses, personal names, payment data, signed download URLs, raw
-account HTML, screenshots of account dashboards, or unredacted supplier chats.
-Convert chats into technical decisions and unresolved release holds.
-
-## Lifecycle handoff
-
-| Manufacturing evidence | Project status | Required exit evidence |
-| --- | --- | --- |
-| Package validated, RFQ submitted | Quote | Complete component pricing and verified quote workbook |
-| Quote technically accepted | Payment | Explicit human payment approval |
-| Paid or manufacturing started | Production | Supplier completion/shipping evidence |
-| Delivered | Receive and QA | Inspection, functional test, calibration and yield |
-| QA passed and stock reconciled | Listed / Sustaining | Purchasable listing, price and channel stock |
-
-Advertising remains downstream of stock: a listing must be public,
-purchasable, and in stock before an ad can run.
 
 ## Current board snapshot
 
