@@ -37,6 +37,7 @@ class Product:
     images: list[str] = field(default_factory=list)
     image_glob: Optional[str] = None
     tindie_product_id: Optional[str] = None
+    elecrow_draft_id: Optional[str] = None
     elecrow_product_id: Optional[str] = None
     elecrow_listing_url: Optional[str] = None
     active: bool = True
