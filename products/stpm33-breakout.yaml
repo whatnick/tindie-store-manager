@@ -1,0 +1,110 @@
+sku: "STPM33-BREAKOUT"
+name: "STPM33 Dual-Current Energy Metering Breakout"
+description: |
+  Fully assembled open-hardware development board for the STMicroelectronics
+  STPM33 energy-metering ASIC. It measures one isolated low-voltage AC channel
+  and two current-transformer channels sharing the same voltage reference,
+  making it suitable for phase/neutral comparison, tamper-detection research,
+  dual-current experiments, and energy-monitoring firmware development.
+
+  The voltage front end is designed for an isolated 9 VAC transformer
+  secondary. Each current input is designed around a 100 A:50 mA
+  current-output CT and uses a 2.4 ohm differential burden, producing
+  approximately 120 mV RMS at rated current. Symmetric filtering and separate
+  analog and digital ground pours support repeatable measurement experiments.
+
+  A 1x14, 2.54 mm development header exposes the analog inputs, 3.3 V supply,
+  ground, SPI/UART communications, synchronization, and enable signals. Five
+  underside test pads expose both interrupt outputs, two LED/pulse outputs,
+  and CLKOUT/zero-crossing. A solder-jumper selects SPI by default or UART
+  after reconfiguration and reset. STPM33 does not use I2C.
+
+  Complete KiCad 10 design files, manufacturing outputs, sourcing data,
+  reconstruction scripts, and validation instructions are published in the
+  open-hardware repository.
+
+  What's included:
+  - 1x fully assembled STPM33 Breakout
+  - STPM33 metering IC, crystal, analog front ends, reset switch, selector,
+    test pads, and fitted 1x14 header
+
+  Current transformers, isolated AC/AC transformer, host controller, and
+  cables are not included.
+
+  Safety: connect the voltage input only to an isolated 9 VAC transformer
+  secondary and use isolated current transformers. This board is not an
+  isolation barrier or certified energy meter and must never be connected
+  directly to mains voltage.
+price_usd: 49.95
+stock: 0
+category: "Energy Monitor"
+tags:
+  - energy-monitor
+  - power-measurement
+  - stpm33
+  - dual-current
+  - current-transformer
+  - spi
+  - uart
+  - breakout
+  - open-hardware
+tindie_product_id: null
+elecrow_product_id: null
+elecrow_listing_url: null
+active: false
+seller_manufactured: true
+listing_state: "draft"
+ships_from: "Elecrow"
+shipping: {}
+design_url: "https://github.com/whatnick/STPM3x_Breakout"
+code_url: null
+docs_url: "https://github.com/whatnick/STPM3x_Breakout/tree/main/hardware/STPM33_Breakout"
+youtube_url: null
+
+specs:
+  voltage_range: "3.3 V supply; isolated 9 VAC transformer-secondary measurement input"
+  current_range: "Two sensor-dependent channels designed around 100 A:50 mA current-output CTs"
+  accuracy: "Requires system gain, offset, and phase calibration against a traceable reference"
+  interfaces:
+    - "SPI"
+    - "UART selectable by solder jumper"
+    - "SYN and EN control"
+    - "INT1, INT2, LED1, LED2, and CLKOUT/ZCR test pads"
+  connectivity:
+    - "1x14, 2.54 mm development header"
+    - "Two differential current-transformer inputs"
+    - "One differential isolated-voltage input"
+  dimensions_mm: "55 x 40"
+  weight_g: null
+  extra:
+    metering_ic: "STMicroelectronics STPM33"
+    channels: "One voltage and two current"
+    ct_burden: "2.4 ohm differential per current channel"
+    analog_filter: "Approximately 4.8 kHz current and voltage input filtering"
+    crystal: "16 MHz"
+    assembly: "Fully assembled"
+    hardware_license: "TAPR Open Hardware License v1.0"
+    origin: "Australia"
+
+options: []
+image_glob: null
+images:
+  - "https://raw.githubusercontent.com/whatnick/STPM3x_Breakout/main/hardware/STPM33_Breakout/renders/STPM33_Breakout_top.png"
+  - "https://raw.githubusercontent.com/whatnick/STPM3x_Breakout/main/hardware/STPM33_Breakout/renders/STPM33_Breakout_bottom.png"
+
+lifecycle:
+  stage: "Quote"
+  product_line: "Energy monitoring"
+  interest_area: "Electronics"
+  channel: "Elecrow"
+  version: "v1.0"
+  supplier_ref: "20261010034448"
+  quantity: 10
+  unit_cost_usd: 15.11
+  review_date: "2027-02-08"
+business_case:
+  decision: "Invest"
+  approval_state: "Approved"
+  confidence: "High"
+  analysis_url: "https://github.com/whatnick/STPM3x_Breakout/tree/main/hardware/STPM33_Breakout"
+  tindie_sales: {lifetime_units: 0, lifetime_orders: 0, last_sale: null}

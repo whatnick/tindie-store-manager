@@ -42,6 +42,26 @@ class ProductStageTests(unittest.TestCase):
             self.assertEqual(values["Last sale"], "2020-01-01")
             self.assertIn("https://example.com/analysis", body)
 
+    def test_supplier_quote_fields_are_exposed_to_the_board(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "quoted.yaml"
+            path.write_text(
+                'sku: STPM33-BREAKOUT\nname: STPM33 Breakout\n'
+                'price_usd: 49.95\nstock: 0\ncategory: Energy Monitor\n'
+                'active: false\n'
+                'lifecycle:\n'
+                '  stage: Quote\n'
+                '  supplier_ref: "20261010034448"\n'
+                '  quantity: 10\n'
+                '  unit_cost_usd: 15.11\n',
+                encoding="utf-8",
+            )
+            _, _, values = product_values(path)
+            self.assertEqual(values["Status"], "Quote")
+            self.assertEqual(values["Supplier ref"], "20261010034448")
+            self.assertEqual(values["Quantity"], 10)
+            self.assertEqual(values["Unit cost USD"], 15.11)
+
 
 if __name__ == "__main__":
     unittest.main()
