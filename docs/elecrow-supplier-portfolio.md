@@ -37,6 +37,24 @@ Previously identified duplicate submissions `20261012055567`,
 `20261012056773`, and `20261012047382` remain cancellation evidence rather
 than active production candidates.
 
+## Marketplace stock and sell-through
+
+The latest PII-free marketplace audit found two completed Elecrow sales of the
+MCP39F521 board and **18 salable units remaining**. It is therefore the
+best-selling Elecrow listing supported by completed-order evidence, but its
+stock is not low enough to justify another batch.
+
+Public catalog pages confirm only availability, not exact seller inventory:
+ADE9000 is in stock at $84.95 and V9360 is in stock at $20.00. Their exact
+Elecrow quantities require a separately authenticated marketplace-seller
+inventory session. Do not substitute local or Tindie stock counts, original
+production quantities, or a public `in stock` badge for that evidence.
+
+The stock implication is to monitor MCP39F521 sell-through rather than
+replenish it. After receiving and QA of current production, ADE7763 x20 remains
+the strongest next demand-proven build; CTVT should complete first-article QA
+before a follow-on batch.
+
 ## Production economics
 
 The multiplier below is catalog price divided by the quoted manufacturing unit
@@ -53,6 +71,10 @@ still need allowance.
 | White/Life ring x10 | $10.00 | $9.56 | 1.05x | Reprice, bundle, or change channel before listing new stock |
 | Blue/Hope ring x10 | $10.00 | $9.97 | 1.00x | Reprice, bundle, or change channel before listing new stock |
 | V9381 x1 | $30.00 | $76.04 | 0.39x | Diagnostic/obsolete quote, not production economics |
+
+Supplier reference `20261107105421` quotes the Tph Synth batch at **$333.36
+total for ten**, including freight, or **$33.336 per board**. The table rounds
+that effective unit cost to $33.34.
 
 ## Current prioritization
 
