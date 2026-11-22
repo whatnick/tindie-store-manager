@@ -94,7 +94,7 @@ images:
   - "https://raw.githubusercontent.com/whatnick/STPM3x_Breakout/main/hardware/STPM33_Breakout/renders/STPM33_Breakout_bottom.png"
 
 lifecycle:
-  stage: "Quote"
+  stage: "Production"
   product_line: "Energy monitoring"
   interest_area: "Electronics"
   channel: "Elecrow"

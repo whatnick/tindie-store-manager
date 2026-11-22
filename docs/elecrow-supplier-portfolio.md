@@ -17,10 +17,11 @@ evidence, not a live Elecrow account read.
 | `20261012051480` | Blue/Hope mono ring PCBA | Production | 10 | $9.97 |
 | `20261012059982` | White/Life mono ring PCBA | Production | 10 | $9.56 |
 | `61028108228-30` | Ring programmer fence/anvil/probe bare PCBs | Production | 20 | $3.44 |
-| `20261012044534` | MCP39F511 PCBA | Payment | 20 | $13.62 |
+| `61028108223-25` | Earlier ring programmer fence/anvil/probe submissions | Cancellation requested | 20 | — |
+| `20261012044534` | MCP39F511 PCBA | Cancellation requested | 20 | $13.62 |
 | `R20261028117530` | MCP39F511 diagnostic PCBA | Quote | 1 | $373.35 |
 | `20261012042661` | ADE7763 PCBA | Quote | 20 | $7.82 |
-| `20261010034448` | STPM33 Breakout PCBA | Quote | 10 | $15.11 |
+| `20261010034448` | STPM33 Breakout PCBA, order `322536` | Production | 10 | $15.11 |
 | `20261005239301` | STPM32 Breakout PCBA | Quote | 10 | $16.10 |
 | `20261107105421` | Tph Synth FeatherWing v0.4 PCBA | Quote | 10 | $33.34 |
 | `R20260314221625` | V9381 Breakout diagnostic PCBA | Quote | 1 | $76.04 |
@@ -36,6 +37,12 @@ evidence, not a live Elecrow account read.
 Previously identified duplicate submissions `20261012055567`,
 `20261012056773`, and `20261012047382` remain cancellation evidence rather
 than active production candidates.
+
+Elecrow accepted cancellation requests for all four items in consolidated
+order `318930` and project management confirmed that they will not be
+fabricated. The account UI still labels the order Payment Pending, so retain
+the cancellation evidence and do not treat that stale label as production
+authorization.
 
 ## Marketplace stock and sell-through
 
@@ -81,26 +88,25 @@ that effective unit cost to $33.34.
 The current board and the latest PII-free authenticated audit support this
 order:
 
-1. **Finish and QA production already in flight:** CTVT PMOD, mono-ring
-   Blue/Hope and White/Life, and the ring programmer bare PCBs. These consume
-   no new quote WIP; prepare receiving, inspection, functional-test, and stock
-   reconciliation now. Do not list the rings at the current catalog price:
-   their manufacturing cost alone consumes essentially all revenue.
-2. **MCP39F511 x20:** first payment decision. It is out of stock, has recent
-   sales, and is already at Payment. Verify that supplier reference
-   `20261012044534` has no unresolved substitutions or file changes; do not use
-   the economically irrelevant one-board quote. Release only if landed-cost
-   review supports a higher selling price or a lower-cost build.
-3. **ADE7763 x20:** next quote to release. It has the strongest demonstrated
+1. **Finish and QA production already in flight:** CTVT PMOD, STPM33, and
+   mono-ring Blue/Hope and White/Life. These consume no new quote WIP; prepare
+   receiving, inspection, functional-test, firmware validation, and stock
+   reconciliation now. Keep the STPM33 Elecrow marketplace entry in draft
+   until accepted inventory exists. Do not list the rings at the current
+   catalog price: their manufacturing cost alone consumes essentially all
+   revenue.
+2. **ADE7763 x20:** next quote to release. It has the strongest demonstrated
    demand in the open quote queue and a low quoted effective cost. Confirm the
-   final workbook and first-article conditions before payment. If both final
-   quotes are simultaneously ready, prioritize ADE7763 ahead of MCP39F511 on
-   return on cash and demand evidence.
+   final workbook and first-article conditions before payment.
+3. **MCP39F511 x20 and ring programmer order `318930`:** do not fabricate.
+   Cancellation requests are accepted and project management has confirmed
+   the hold; periodically verify that Elecrow clears the stale Payment Pending
+   display.
 4. **Tph Synth FeatherWing x10:** hold at Quote until component-price
    reconciliation, resistor-hole fit, potentiometer seating, substitutions,
    and first-article approval are resolved.
-5. **STPM32/STPM33 x10:** keep as research/developer batches until named pilot
-   users, firmware/test readiness, and a receiving plan justify production.
+5. **STPM32 x10:** keep at Quote until named pilot users, firmware/test
+   readiness, and a receiving plan justify production.
 6. **Remaining mono-ring colours:** wait for QA and sell-through evidence from
    Blue/Hope and White/Life before releasing eight more variants. If released,
    combine tooling/freight without merging exact LED BOMs or colour
