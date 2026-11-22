@@ -28,10 +28,13 @@ images: []
 design_url: "https://github.com/whatnick/MCP39F511_Breakout"
 code_url: "https://github.com/whatnick/MCP39F511_Arduino"
 lifecycle:
-  stage: "Sustaining"
+  stage: "Production"
   product_line: "Energy monitoring"
   interest_area: "Electronics"
   channel: "Both"
+  supplier_ref: "20261012044534"
+  quantity: 20
+  unit_cost_usd: 13.62
   review_date: "2027-02-08"
 business_case:
   decision: "Invest"

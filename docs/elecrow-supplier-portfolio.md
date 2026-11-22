@@ -18,7 +18,7 @@ evidence, not a live Elecrow account read.
 | `20261012059982` | White/Life mono ring PCBA | Production | 10 | $9.56 |
 | `61028108228-30` | Ring programmer fence/anvil/probe bare PCBs | Production | 20 | $3.44 |
 | `61028108223-25` | Earlier ring programmer fence/anvil/probe submissions | Cancellation requested | 20 | — |
-| `20261012044534` | MCP39F511 PCBA | Cancellation requested | 20 | $13.62 |
+| `20261012044534` | MCP39F511 PCBA, order `318930` | Production | 20 | $13.62 |
 | `R20261028117530` | MCP39F511 diagnostic PCBA | Quote | 1 | $373.35 |
 | `20261012042661` | ADE7763 PCBA | Quote | 20 | $7.82 |
 | `20261010034448` | STPM33 Breakout PCBA, order `322536` | Production | 10 | $15.11 |
@@ -38,11 +38,13 @@ Previously identified duplicate submissions `20261012055567`,
 `20261012056773`, and `20261012047382` remain cancellation evidence rather
 than active production candidates.
 
-Elecrow accepted cancellation requests for all four items in consolidated
-order `318930` and project management confirmed that they will not be
-fabricated. The account UI still labels the order Payment Pending, so retain
-the cancellation evidence and do not treat that stale label as production
-authorization.
+The owner subsequently confirmed that the MCP39F511 board in consolidated
+order `318930` was sent to manufacture, superseding its earlier cancellation
+hold. The account UI still labels supplier reference `20261012044534` Payment
+Pending, so preserve that discrepancy and use the owner authorization as the
+current project-management state. The earlier ring programmer submissions
+`61028108223-25` remain cancellation-requested; do not conflate them with the
+active ring batch `61028108228-30`.
 
 ## Marketplace stock and sell-through
 
@@ -88,20 +90,19 @@ that effective unit cost to $33.34.
 The current board and the latest PII-free authenticated audit support this
 order:
 
-1. **Finish and QA production already in flight:** CTVT PMOD, STPM33, and
-   mono-ring Blue/Hope and White/Life. These consume no new quote WIP; prepare
-   receiving, inspection, functional-test, firmware validation, and stock
-   reconciliation now. Keep the STPM33 Elecrow marketplace entry in draft
-   until accepted inventory exists. Do not list the rings at the current
-   catalog price: their manufacturing cost alone consumes essentially all
-   revenue.
+1. **Finish and QA production already in flight:** CTVT PMOD, STPM33,
+   MCP39F511, and mono-ring Blue/Hope and White/Life. These consume no new
+   quote WIP; prepare receiving, inspection, functional-test, firmware
+   validation, and stock reconciliation now. Keep the STPM33 Elecrow
+   marketplace entry in draft until accepted inventory exists. Do not list
+   the rings at the current catalog price: their manufacturing cost alone
+   consumes essentially all revenue.
 2. **ADE7763 x20:** next quote to release. It has the strongest demonstrated
    demand in the open quote queue and a low quoted effective cost. Confirm the
    final workbook and first-article conditions before payment.
-3. **MCP39F511 x20 and ring programmer order `318930`:** do not fabricate.
-   Cancellation requests are accepted and project management has confirmed
-   the hold; periodically verify that Elecrow clears the stale Payment Pending
-   display.
+3. **MCP39F511 x20:** manufacturing is authorized. Track supplier reference
+   `20261012044534` against order `318930` and reconcile Elecrow's stale
+   Payment Pending display without reapplying the superseded cancellation.
 4. **Tph Synth FeatherWing x10:** hold at Quote until component-price
    reconciliation, resistor-hole fit, potentiometer seating, substitutions,
    and first-article approval are resolved.
