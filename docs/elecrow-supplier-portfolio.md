@@ -64,6 +64,34 @@ replenish it. After receiving and QA of current production, ADE7763 x20 remains
 the strongest next demand-proven build; CTVT should complete first-article QA
 before a follow-on batch.
 
+## Marketplace price positioning
+
+The authenticated Elecrow seller inventory on 2026-11-22 showed:
+
+| Listed product | Price | Salable | Confirmed sales |
+| --- | ---: | ---: | ---: |
+| V9261F Breakout | $20.00 | 18 | 2 |
+| V9360 Breakout | $20.00 | 19 | 1 |
+| ATM90E26 Breakout | $25.00 | 40 | 40 |
+| MCP39F521 Breakout | $29.95 | 18 | 2 |
+| ATM90E36 devkit | $30.00 | 0 | 20 |
+| ADE9000 Breakout | $84.95 | 7 | 1 |
+
+Price MCP39F511 at **$29.95**. This matches the closest MCP39F5xx family
+listing, remains below the three-phase and premium polyphase products, and
+avoids presenting a currently manufactured board as a discounted alternative
+to MCP39F521. At the $13.62 manufacturing cost and Elecrow's published 5%
+seller fee, a $29.95 sale returns $28.45 before withdrawal charges and leaves
+$14.83 contribution per board, or 49.5% of sale price, before tax, QA, support,
+design-fault refunds, and other overhead. The previous $25 price left $10.13,
+or 40.5%, and was too close to the low-cost ATM90E26 anchor for the smaller
+20-board batch.
+
+Do not copy MCP39F521's current 20-23% multi-unit discounts onto MCP39F511
+without new cost evidence. If quantity breaks are needed after sell-through is
+observed, use $27.95 for two and $26.95 for four; these retain approximately
+46.3% and 44.5% contribution margins respectively before the same overheads.
+
 ## Production economics
 
 The multiplier below is catalog price divided by the quoted manufacturing unit
@@ -75,7 +103,7 @@ still need allowance.
 | --- | ---: | ---: | ---: | --- |
 | ADE7763 x20 | $25.00 | $7.82 | 3.20x | Best open replenishment economics and strongest proven demand |
 | CTVT PMOD x10 | $54.95 | $21.43 | 2.56x | Plausible research-board margin if QA/yield are good |
-| MCP39F511 x20 | $25.00 | $13.62 | 1.84x | Marginal after fees and fulfilment; verify landed cost |
+| MCP39F511 x20 | $29.95 | $13.62 | 2.20x | Family-aligned price with 49.5% contribution after Elecrow's 5% fee |
 | Tph Synth x10 | $50.00 | $33.34 | 1.50x | Insufficient while technical and quote holds remain |
 | White/Life ring x10 | $10.00 | $9.56 | 1.05x | Reprice, bundle, or change channel before listing new stock |
 | Blue/Hope ring x10 | $10.00 | $9.97 | 1.00x | Reprice, bundle, or change channel before listing new stock |
