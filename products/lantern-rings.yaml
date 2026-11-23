@@ -1,15 +1,29 @@
 sku: "LANTERN-RINGS"
 name: "Lantern Rings"
 description: |
-  Lantern Corp Ring - Made to Measure
+  Open-hardware lantern ring electronics and optional printed ring parts.
+
+  The Infrared TV-B-Gone populated-PCB option is programmed with the
+  open-source Arduino TV-B-Gone firmware and individually function-tested
+  before dispatch. Select "Infrared TV-B-Gone" under Populated PCB.
+
+  The IR option is the populated electronics board only unless a printed ring
+  body option is also selected. Infrared light is not visible to the eye. A
+  CR2032 battery is not included. TV compatibility varies; use the device only
+  with equipment you own or have permission to control.
 price_usd: 10.00
 stock: 8
-category: "Energy Monitor"
+category: "Other"
 tags:
-  - energy-monitor
+  - wearable
+  - infrared
+  - tv-b-gone
+  - open-hardware
   - open-source
 tindie_product_id: "25958"
 active: true
+listing_state: "published"
+seller_manufactured: true
 
 specs:
   voltage_range: null
@@ -21,9 +35,13 @@ specs:
   weight_g: null
   extra: {}
 
-images: []
+images:
+  - "assets/lantern-rings/tv-b-gone-render.jpg"
+  - "assets/lantern-rings/tv-b-gone-tested-hardware.jpg"
 
 design_url: "https://github.com/whatnick/lantern_ring"
+code_url: "https://github.com/whatnick/lantern_ring/tree/main/firmware/Arduino-TV-B-Gone"
+docs_url: "https://github.com/whatnick/lantern_ring/tree/main/hardware/v2.0/ring_pcb_IR"
 lifecycle:
   stage: "Sustaining"
   product_line: "LED cosplay props"
